@@ -1,7 +1,7 @@
 <?php
 
-require_once './env.php';
-require_once './base.php';
+require_once '../env.php';
+require_once '../base.php';
 class Database {
 
     private static $instance;
@@ -159,7 +159,7 @@ $database->connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 
 // $database->select(DB_TABLE);
 
-// $database->insert("users","username,password,email,room_id,role", "'Hadeer','123','Hadeer@gmail.com','1' ,'user'");
+$database->insert("users","username,password,email,room_id,role", "'Hala','123','Hala@gmail.com','1' ,'user'");
 
 
 // $database->update(DB_TABLE,7,"name='hamada',password='1234',room_number='Cloud'");
