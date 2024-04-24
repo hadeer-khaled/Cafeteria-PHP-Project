@@ -6,12 +6,13 @@ require_once '../base.php';
 <html>
 <head>
     <title>Add Category Form</title>
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card">
+                <div class="card form-shadow">
                     <div class="card-header">
                         <h2 class="text-center">Add a Category</h2>
                     </div>
@@ -22,7 +23,7 @@ require_once '../base.php';
                                 <input type="text" class="form-control" id="category_name" name="category_name" required>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Add Category</button>
+                                <button type="submit" class="btn form-btn mt-4">Add Category</button>
                             </div>
                         </form>
                     </div>
