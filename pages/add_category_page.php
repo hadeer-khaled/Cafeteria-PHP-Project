@@ -19,7 +19,7 @@ require_once '../base.php';
                     <div class="card-body">
                         <form action="../handlers/category_handler.php" method="POST">
                             <div class="form-group">
-                                <label for="category_name">Category Name:</label>
+                                <label for="category_name" class="mb-1">Category Name:</label>
                                 <input type="text" class="form-control" id="category_name" name="category_name" required>
                             </div>
                             <div class="text-center">
