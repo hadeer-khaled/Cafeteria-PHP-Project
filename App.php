@@ -1,10 +1,9 @@
 <?php
-use classes\{  
+use helpers\{  
     Request,
     Session
 };
 
-use validation\Validator;
 
 require_once 'classes/helpers/Request.php';
 require_once 'classes/helpers/Session.php';
