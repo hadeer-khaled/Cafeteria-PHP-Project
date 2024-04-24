@@ -84,6 +84,7 @@ class Database {
             return true;
         } catch (PDOException $e) {
             echo "Error deleting record: " . $e->getMessage();
+            return false;
         }
     }
 
