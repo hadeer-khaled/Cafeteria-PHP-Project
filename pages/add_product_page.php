@@ -2,7 +2,7 @@
 <?php
 require_once '../env.php';
 require_once '../base.php';
-require_once '../classes/db_class.php'; 
+require_once '../classes/db_classes.php'; 
 
 
 $database = Database::getInstance();
@@ -25,12 +25,12 @@ $categories = $database->select("categories")
             <div class="col-md-6">
                 <div class="card form-shadow">
                     <div class="card-header">
-                        <h2 class="text-center main-text-color">Add Product</h2>
+                        <h2 class="text-center">Add Product</h2>
                     </div>
                     <div class="card-body">
-                        <form action="../handlers/product_handler.php" method="POST" enctype="multipart/form-data">
+                        <form action="../handlers/add_product_handler.php" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="product_name" class="main-text-color" style="color: red;">Product Name:</label>
+                                <label for="product_name">Product Name:</label>
                                 <input type="text" class="form-control" id="product_name" name="name" placeholder="ex: Mango juice" required>
                             </div>
                             <div class="form-group mt-4">
