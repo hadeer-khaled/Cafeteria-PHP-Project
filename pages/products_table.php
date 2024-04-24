@@ -2,19 +2,13 @@
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
-
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
 $products = $database->select("products");
 
-foreach ($products as &$product) {
-    $category_id = $product['category_id'];
-    $category = $database->select("categories", "name", "id = $category_id");
-    $product['category_name'] = $category[0]['name'];
-}
+if (empty($products)) {
+    echo "<h2 class='text-center'>No products available.</h2>";
+} else {
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +35,6 @@ foreach ($products as &$product) {
                         $product_info = $product['id'];
                         $delete_url = "../handlers/delete_product_handler.php?id={$product_info}";
                         // $edit_url = "update_product.php?id={$url_query_string}";
-                        
                     ?>
                         <tr>
                             <td><?php echo $product['id']; ?></td>
@@ -50,15 +43,14 @@ foreach ($products as &$product) {
                             <td><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="max-width: 100px;"></td>
                             <td><?php echo $product['category_name']; ?></td>
                             <td><a href="<?php echo $delete_url; ?>" class='btn btn-danger'>Delete</a></td>
-
-
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
-
-
 </body>
 </html>
+<?php
+}
+?>
