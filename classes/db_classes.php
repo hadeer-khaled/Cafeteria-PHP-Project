@@ -81,9 +81,10 @@ class Database {
 
         try {
             $statement->execute();
-            echo "Record deleted successfully.";
+            return true;
         } catch (PDOException $e) {
             echo "Error deleting record: " . $e->getMessage();
+            return false;
         }
     }
 
