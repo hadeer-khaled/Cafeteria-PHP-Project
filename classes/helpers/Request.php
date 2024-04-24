@@ -1,6 +1,5 @@
 <?php
 namespace helpers;
-
 class Request{
 
     public function post($key)
