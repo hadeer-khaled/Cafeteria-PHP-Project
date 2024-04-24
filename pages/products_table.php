@@ -1,5 +1,5 @@
 <?php
-require_once '../classes/db_class.php'; 
+require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
 
