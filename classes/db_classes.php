@@ -52,8 +52,9 @@ class Database {
 
             if (count($result) > 0) {
                 return $result;
-            } else {
-                echo "No users found yet.";
+            } 
+            else {
+                return 0;
             }
         } catch (PDOException $e) {
             echo "Error selecting records: " . $e->getMessage();
@@ -81,11 +82,31 @@ class Database {
 
         try {
             $statement->execute();
-            echo "Record deleted successfully.";
+            return true;
         } catch (PDOException $e) {
             echo "Error deleting record: " . $e->getMessage();
+            return false;
         }
     }
+    public function selectById($table, $id) {
+        $query = "SELECT * FROM $table WHERE id = :id";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    
+        try {
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result) {
+                return $result;
+            } else {
+                echo "No record found with id $id in table $table.";
+            }
+        } catch (PDOException $e) {
+            echo "Error selecting record by id: " . $e->getMessage();
+        }
+    }
+    
 
 
     public function __destruct() {
