@@ -28,9 +28,10 @@ $categories = $database->select("categories")
                         <h2 class="text-center main-text-color">Add Product</h2>
                     </div>
                     <div class="card-body">
-                        <form action="../handlers/product_handler.php" method="POST" enctype="multipart/form-data">
+                    <!-- enctype="multipart/form-data" -->
+                    <form action="../handlers/product_handler.php" method="POST" >
                             <div class="form-group">
-                                <label for="product_name" class="main-text-color" style="color: red;">Product Name:</label>
+                                <label for="product_name">Product Name:</label>
                                 <input type="text" class="form-control" id="product_name" name="name" placeholder="ex: Mango juice" required>
                             </div>
                             <div class="form-group mt-4">
@@ -46,11 +47,11 @@ $categories = $database->select("categories")
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="form-group mt-4">
+                            <!-- <div class="form-group mt-4">
                                 <label for="product_image">Product Image:</label>
                                 <input type="file" class="form-control-file" id="product_image" name="image" required>
                             </div>
-                            
+                             -->
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn form-btn">Add Product</button>
                             </div>
