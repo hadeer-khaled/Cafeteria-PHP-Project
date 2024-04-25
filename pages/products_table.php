@@ -6,11 +6,17 @@ $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $products = $database->select("products");
 
+$productsWithCategories = [];
+
 if (!empty($products)) {
-    foreach ($products as &$product) {
+    foreach ($products as $product) {
         $category_id = $product['category_id'];
         $category = $database->select("categories", "name", "id = $category_id");
-        $product['category_name'] = $category[0]['name'];
+        
+        if (!empty($category)) {
+            $product['category_name'] = $category[0]['name'];
+            $productsWithCategories[] = $product;
+        }
     }
 }
 ?>
@@ -23,11 +29,12 @@ if (!empty($products)) {
 </head>
 <body>
     <div class="container mt-5">
-        <?php if (empty($products)): ?>
+        <?php if (empty($productsWithCategories)): ?>
             <h2 class="text-center">No products available.</h2>
-            <?php else: ?>
-                <h2 class="text-center">Products List</h2>
+        <?php else: ?>
+            <h2 class="text-center">Products List</h2>
             <div class="table-responsive">
+            <td><a href="<?php echo "add_product_page.php"; ?>" class='btn btn-info'>Add Product</a></td>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -40,7 +47,7 @@ if (!empty($products)) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($products as $product): ?>
+                        <?php foreach ($productsWithCategories as $product): ?>
                             <tr>
                                 <td><?php echo $product['id']; ?></td>
                                 <td><?php echo $product['name']; ?></td>

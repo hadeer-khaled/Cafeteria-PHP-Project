@@ -28,8 +28,7 @@ $categories = $database->select("categories")
                         <h2 class="text-center main-text-color">Add Product</h2>
                     </div>
                     <div class="card-body">
-                    <!-- enctype="multipart/form-data" -->
-                    <form action="../handlers/product_handler.php" method="POST" >
+                    <form action="../handlers/add_product_handler.php" method="POST" enctype="multipart/form-data" >
                             <div class="form-group">
                                 <label for="product_name">Product Name:</label>
                                 <input type="text" class="form-control" id="product_name" name="name" placeholder="ex: Mango juice" required>
@@ -52,6 +51,7 @@ $categories = $database->select("categories")
                                 <input type="file" class="form-control-file" id="product_image" name="image" required>
                             </div>
                              -->
+                  
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn form-btn">Add Product</button>
                             </div>

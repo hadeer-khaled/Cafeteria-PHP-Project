@@ -4,7 +4,6 @@ require_once '../base.php';
 require_once '../classes/db_classes.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST);
     $database = Database::getInstance();
     $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
