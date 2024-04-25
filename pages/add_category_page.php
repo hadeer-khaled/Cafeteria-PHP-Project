@@ -17,7 +17,7 @@ require_once '../base.php';
                         <h2 class="text-center">Add a Category</h2>
                     </div>
                     <div class="card-body">
-                        <form action="../handlers/category_handler.php" method="POST">
+                        <form action="../handlers/add_category_handler.php" method="POST">
                             <div class="form-group">
                                 <label for="category_name" class="mb-1">Category Name:</label>
                                 <input type="text" class="form-control" id="category_name" name="category_name" required>
