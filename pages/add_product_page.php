@@ -20,6 +20,9 @@ $categories = $database->select("categories")
 
 </head>
 <body>
+<?php
+    require '../inc/admin_navbar.php';
+    ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -38,7 +41,7 @@ $categories = $database->select("categories")
                                 <input type="number" class="form-control" id="product_price" name="price" placeholder="ex: 90" required>
                             </div>
                             <div class="form-group mt-4">
-                                <label for="category_id">Category:</label>
+                                <label for="category_id">Category: <a href="add_category_page.php">Add Category</a> </label>
                                 <select class="form-control" id="category_id" name="category_id" required>
                                     <option value="">Select Category</option>
                                     <?php foreach ($categories as $category): ?>

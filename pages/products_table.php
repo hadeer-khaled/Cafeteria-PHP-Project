@@ -28,6 +28,9 @@ if (!empty($products)) {
     <title>Products List</title>
 </head>
 <body>
+<?php
+    require '../inc/admin_navbar.php';
+    ?>
     <div class="container mt-5">
         <?php if (empty($productsWithCategories)): ?>
             <h2 class="text-center">No products available.</h2>
@@ -54,7 +57,12 @@ if (!empty($products)) {
                                 <td><?php echo $product['price']; ?></td>
                                 <td><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="max-width: 100px;"></td>
                                 <td><?php echo $product['category_name']; ?></td>
-                                <td><a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" class='btn btn-danger'>Delete</a></td>
+                                <td>
+                                    <a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" class='btn btn-danger'>Delete</a>
+                                    |
+                                    <a href="<?php echo "update_product_page.php?id={$product['id']}"; ?>" class='btn btn-info'>Update</a>
+                            
+                            </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

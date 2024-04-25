@@ -1,6 +1,5 @@
 <?php
 require_once '../base.php';
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,6 +8,9 @@ require_once '../base.php';
     <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 <body>
+    <?php
+    require '../inc/admin_navbar.php';
+    ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
