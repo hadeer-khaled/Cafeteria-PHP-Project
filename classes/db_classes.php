@@ -87,6 +87,25 @@ class Database {
             return false;
         }
     }
+    public function selectById($table, $id) {
+        $query = "SELECT * FROM $table WHERE id = :id";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    
+        try {
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result) {
+                return $result;
+            } else {
+                echo "No record found with id $id in table $table.";
+            }
+        } catch (PDOException $e) {
+            echo "Error selecting record by id: " . $e->getMessage();
+        }
+    }
+    
 
 
     public function __destruct() {
