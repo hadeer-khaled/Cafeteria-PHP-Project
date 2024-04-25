@@ -11,13 +11,13 @@ $productsWithCategories = [];
 if (!empty($products)) {
     foreach ($products as $product) {
         $category_id = $product['category_id'];
-        $category = $database->select("categories", "name", "id = $category_id");
-        
+        $category = $database->selectById("categories", $category_id);        
         if (!empty($category)) {
-            $product['category_name'] = $category[0]['name'];
+            $product['category_name'] = $category['name'];
             $productsWithCategories[] = $product;
         }
     }
+    // var_dump( $productsWithCategories);
 }
 ?>
 
