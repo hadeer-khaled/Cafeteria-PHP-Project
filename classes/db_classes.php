@@ -52,8 +52,9 @@ class Database {
 
             if (count($result) > 0) {
                 return $result;
-            } else {
-                echo "No users found yet.";
+            } 
+            else {
+                return 0;
             }
         } catch (PDOException $e) {
             echo "Error selecting records: " . $e->getMessage();
