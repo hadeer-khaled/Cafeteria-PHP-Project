@@ -41,16 +41,14 @@ if (!empty($products)) {
                     </a>
                 </div>
 
-            </div>
-            
-            
+            </div>        
         <?php else: ?>
             <h2 class="text-center" >Products List</h2>
             <div class="table-responsive" style="position:relative; ">
             <div class="rounded-circle p-2 " style =" position:absolute;right: 0px;  width: fit-content; background-color: #BA6644;">
-                        <a href="<?php echo "add_product_page.php"; ?>">
-                            <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
-                        </a>
+                    <a href="<?php echo "add_product_page.php"; ?>">
+                        <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
+                    </a>
                 </div>      
             <table class="table table-striped mt-2" >
                     <thead>

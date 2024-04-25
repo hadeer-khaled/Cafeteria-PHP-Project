@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $database->insert($table, $columns, $values);
 
     if ($result) {
+        header("Location: ../pages/categories_table.php");
         echo "Category inserted successfully.";
     } else {
         echo "Error inserting category.";
