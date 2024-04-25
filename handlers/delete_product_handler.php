@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $result = $database->delete($table,$product_id );
 
     if ($result) {
+        header("Location: ../pages/products_table.php");
         echo "Product deleted successfully.";
     } else {
         echo "Error deleting Product.";
