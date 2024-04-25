@@ -33,12 +33,26 @@ if (!empty($products)) {
     ?>
     <div class="container mt-5">
         <?php if (empty($productsWithCategories)): ?>
-            <h2 class="text-center">No products available.</h2>
+            <div class="m-auto d-flex align-items-baseline text-center" style = "width:fit-content;">
+                <h2 class="text-center mx-2">Product List is empty. </h2>
+                <div class="rounded-circle p-2" style ="width: fit-content; background-color: #BA6644;">
+                    <a href="<?php echo "add_product_page.php"; ?>">
+                        <i class="fa-solid fa-plus" style="color:white;font-size: 23px;"></i>
+                    </a>
+                </div>
+
+            </div>
+            
+            
         <?php else: ?>
-            <h2 class="text-center">Products List</h2>
-            <div class="table-responsive">
-            <td><a href="<?php echo "add_product_page.php"; ?>" class='btn btn-info'>Add Product</a></td>
-                <table class="table table-striped">
+            <h2 class="text-center" >Products List</h2>
+            <div class="table-responsive" style="position:relative; ">
+            <div class="rounded-circle p-2 " style =" position:absolute;right: 0px;  width: fit-content; background-color: #BA6644;">
+                        <a href="<?php echo "add_product_page.php"; ?>">
+                            <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
+                        </a>
+                </div>      
+            <table class="table table-striped mt-2" >
                     <thead>
                         <tr>
                             <th>#</th>
@@ -58,9 +72,11 @@ if (!empty($products)) {
                                 <td><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="max-width: 100px;"></td>
                                 <td><?php echo $product['category_name']; ?></td>
                                 <td>
-                                    <a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" class='btn btn-danger'>Delete</a>
+                                    <a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" >
+                                    <i class="fa-solid fa-trash-can"  style = "font-size: 20px;color: #8B322C;" ></i></a>
                                     |
-                                    <a href="<?php echo "update_product_page.php?id={$product['id']}"; ?>" class='btn btn-info'>Update</a>
+                                    <a href="<?php echo "update_product_page.php?id={$product['id']}"; ?>" >
+                                    <i class="fa-solid fa-pen-to-square" style = "font-size: 20px;color: #1A4D2E;"></i></a>
                             
                             </td>
                             </tr>
@@ -68,7 +84,10 @@ if (!empty($products)) {
                     </tbody>
                 </table>
             </div>
+
         <?php endif; ?>
+
     </div>
 </body>
 </html>
+

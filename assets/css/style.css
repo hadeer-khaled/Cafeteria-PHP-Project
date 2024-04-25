@@ -1,3 +1,8 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
 .form-btn{
     background-color: #BA6644;
     color: white;
@@ -13,4 +18,15 @@
 }
 .main-text-color{
     color: #202738 !important;
+}
+.main-bg-color{
+    background-color: #202738 !important;
+}
+
+.nav-link:hover{
+color:  #BA6644 !important;
+}
+
+.nav-link.active {
+    color: #BA6644 !important; /* Change the color to your desired color */
 }
