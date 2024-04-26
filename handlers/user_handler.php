@@ -2,7 +2,7 @@
 
 require_once '../env.php';
 require_once '../base.php';
-require_once '../classes/db_class.php'; 
+require_once '../classes/db_classes.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];

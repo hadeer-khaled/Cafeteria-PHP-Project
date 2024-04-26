@@ -26,7 +26,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  style="color: white;"href="#">
+        <a class="nav-link"  style="color: white;"href="../pages/users_table.php">
           Users
         </a>
       </li>
