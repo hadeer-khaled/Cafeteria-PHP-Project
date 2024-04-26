@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $roomNo = $_POST['room_id'];
+    $role = "user";
     $errors = [];
 $old_data= [];
 if (empty($_POST["name"])){
@@ -76,8 +77,8 @@ if (empty($_POST["password"])){
             $saved = move_uploaded_file($tmp_name, $path);
         
         }
-        $columns = "username, email, password, room_id, image";
-        $values = "'$name', '$email', '$password', '$roomNo', '$path' "; 
+        $columns = "username, email, password, role,room_id, image";
+        $values = "'$name', '$email', '$password','$role','$roomNo', '$path' "; 
         if ($database->insert($table, $columns, $values)) {
             echo "Record inserted successfully.";
         } else {
