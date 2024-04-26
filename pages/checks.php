@@ -1,5 +1,23 @@
 <?php
-require_once '../base.php';
+require_once '../classes/db_classes.php'; 
+
+$database = Database::getInstance();
+$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+$orders = $database->select("orders");
+
+$users_orders = [];
+
+if (!empty($orders)) {
+    foreach ($orders as $order) {
+        $user_id = $order['user_id'];
+        $user = $database->selectById("users", $user_id);        
+        if (!empty($user)) {
+            $order['username'] = $user['username'];
+            $users_orders[] = $order;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +27,7 @@ require_once '../base.php';
 </head>
 <body>
 <?php
-  require '../inc/admin_navbar.php';
+require '../inc/admin_navbar.php';
 ?>
 <div class="container">
     <div class="row justify-content-center">
@@ -29,9 +47,6 @@ require_once '../base.php';
                         <select name="user_id" id="user_id" class="form-control form-select">
                             <option value="">Select User</option>
                             <?php
-                            require_once '../classes/db_classes.php'; 
-                            $database = Database::getInstance();
-                            $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                             $users = $database->select("users");
                             foreach ($users as $user):
                                 echo "<option value='" . $user['id'] . "'>" . $user['username'] . "</option>";
@@ -56,10 +71,22 @@ require_once '../base.php';
                         <th scope="col">Order Date</th>
                         <th scope="col">Status</th>
                         <th scope="col">Amount</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Details</th>
                     </tr>
                 </thead>
                 <tbody id="orders-table-body">
+                    <?php
+                    // Display initial data when the page is loaded
+                    foreach ($users_orders as $order) {
+                        echo "<tr>";
+                        echo "<td>" . $order['username'] . "</td>";
+                        echo "<td>" . $order['order_date'] . "</td>";
+                        echo "<td>" . $order['status'] . "</td>";
+                        echo "<td>" . $order['total_amount'] . "</td>";
+                        echo "<td>Details</td>";
+                        echo "</tr>";
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>

@@ -14,12 +14,7 @@ $start_date = htmlspecialchars($start_date);
 $end_date = htmlspecialchars($end_date);
 $user_id = htmlspecialchars($user_id);
 
-
-
 $orders = $database->getOrdersByCriteria($start_date, $end_date, $user_id);
-
-
-// var_dump($orders);
 
 if ($orders) {
     foreach ($orders as $order) {
@@ -28,11 +23,10 @@ if ($orders) {
         echo "<td>" . $order['order_date'] . "</td>";
         echo "<td>" . $order['status']  . "</td>";
         echo "<td>" . $order['total_amount'] . "</td>";
-        echo "<hr>";
+        echo "<td>". "Details" . "</td>";
         echo "</tr>";
     }
 } else {
     echo "No orders found for the selected criteria.";
 }
-
 ?>
