@@ -76,14 +76,15 @@ require '../inc/admin_navbar.php';
                 </thead>
                 <tbody id="orders-table-body">
                     <?php
-                    // Display initial data when the page is loaded
                     foreach ($users_orders as $order) {
+                        $url_query_string = $order['id'];
+                        $details_url = "Details.php?id={$url_query_string}";
                         echo "<tr>";
                         echo "<td>" . $order['username'] . "</td>";
                         echo "<td>" . $order['order_date'] . "</td>";
                         echo "<td>" . $order['status'] . "</td>";
                         echo "<td>" . $order['total_amount'] . "</td>";
-                        echo "<td>Details</td>";
+                        echo "<td> <a href='{$details_url}' class= 'btn btn-outline-primary'> Details</a></td>";
                         echo "</tr>";
                     }
                     ?>

@@ -129,6 +129,20 @@ class Database {
         return $orders;
     }
 
+    public function selectOrderItemsByOrderId($order_id) {
+        $query = "SELECT * FROM order_items WHERE order_id = :order_id";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    
+        try {
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error selecting order items: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function __destruct() {
         $this->connection = null;
