@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $roomNo = $_POST['roomNo'];
+    $roomNo = $_POST['room_id'];
     $errors = [];
 $old_data= [];
 if (empty($_POST["name"])){
@@ -28,10 +28,10 @@ if (empty($_POST["email"])){
     }
 }
 
-if (empty($_POST["roomNo"])){
-    $errors["roomNo"] = "roomNo is required";
+if (empty($_POST["room_id"])){
+    $errors["room_id"] = "roomNo is required";
 }else{
-    $old_data['roomNo'] = $_POST["roomNo"];
+    $old_data['room_id'] = $_POST["room_id"];
 }
 if (empty($_POST["password"])){
     $errors['password'] = "Password is required";

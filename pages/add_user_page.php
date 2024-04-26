@@ -1,6 +1,8 @@
 <?php
     // Check if there are any errors and old data passed via GET request
     require_once '../base.php';
+require_once '../classes/db_classes.php'; 
+
     if(isset($_GET['errors'])){
         $errors = json_decode($_GET["errors"], true);
     }
@@ -8,6 +10,10 @@
     if(isset($_GET['old_data'])){
         $old_data = json_decode($_GET["old_data"], true);
     }
+
+$database = Database::getInstance();
+$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$rooms = $database->select("rooms");
 ?>
 
 <!DOCTYPE html>
@@ -58,14 +64,14 @@
             <?php endif; ?>
         </div>
         <div class="mb-3">
-            <label for="roomNo" class="form-label">Room No</label>
-            <select name="roomNo" class="form-select" id="roomNo">
-                <option value="1" <?php echo (isset($old_data['roomNo']) && $old_data['roomNo'] == '1') ? 'selected' : ''; ?>>1</option>
-                <option value="2" <?php echo (isset($old_data['roomNo']) && $old_data['roomNo'] == '2') ? 'selected' : ''; ?>>2</option>
-                <option value="3"category_handler <?php echo (isset($old_data['roomNo']) && $old_data['roomNo'] == '3') ? 'selected' : ''; ?>>3</option>
+            <label for="room_id" class="form-label">Room No</label>
+            <select name="room_id" class="form-select" id="room_id">
+                <?php foreach ($rooms as $room): ?>
+                    <option value="<?php echo $room['id']; ?>" <?php echo (isset($edit_data['room_id']) && $edit_data['room_id'] == $room['id']) ? 'selected' : ''; ?>><?php echo $room['room_number']; ?></option>
+                <?php endforeach; ?>
             </select>
-            <?php if(isset($errors['roomNo'])): ?>
-                <div class="text-danger"><?php echo $errors['roomNo']; ?></div>
+            <?php if(isset($errors['room_id'])): ?>
+                <div class="text-danger"><?php echo $errors['room_id']; ?></div>
             <?php endif; ?>
         </div>
         <div class="mb-3">
