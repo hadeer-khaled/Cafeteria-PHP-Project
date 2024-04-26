@@ -44,7 +44,7 @@ if (!empty($orders)) {
     <title>Orders</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <style>
-        .product-image {
+.product-image {
     width: 100px; 
     height: auto; 
     display: block;
@@ -72,7 +72,7 @@ if (!empty($orders)) {
   .total-price {
     position: relative; /* Position the total price text absolutely */
     bottom: 0; /* Align to the bottom */
-    right: -1200px;
+    right: -1000px;
     margin: 10px; /* Add some margin for spacing */
   }
     </style>
@@ -100,8 +100,10 @@ if (!empty($orders)) {
                     <a href="<?php echo "add_order_page.php"; ?>">
                         <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
                     </a>
-                </div>      
-            <table class="table table-striped mt-2" >
+            </div>      
+            <?php foreach ($OrdersToDisplay as $order): ?>
+                <table class="table table-striped mt-2" style="margin-bottom: 50px;">
+
                     <thead>
                         <tr>
                             <th>#</th>
@@ -113,7 +115,6 @@ if (!empty($orders)) {
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($OrdersToDisplay as $order): ?>
                         <tr>
                             <td><?php echo $order['order_id']; ?></td>
                             <td><?php echo $order['order_date']; ?></td>
@@ -124,12 +125,32 @@ if (!empty($orders)) {
                                 <a href="deliver_order_page.php?id=<?php echo $order['order_id']; ?>" class="btn btn-success">deliver</a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-
-
                     </tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">
+                                <div>
+                                    <div class="products-section">
+                                        <div class="product-card">
+                                            <div style="position: relative;">
+                                                <img class="product-image" src="https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg" alt="">
+                                                <span class="price-tag">$5.00</span>
+                                                <p class="product-name">coffee</p>
+                                                <span class="product-quantity">Items: <strong>1</strong></span>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                    <p class="total-price"><strong>Order Total: $10.00</strong></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                        
+                        
+                        
                 </table>
-            </div>
+            <?php endforeach; ?>
+        </div>
 
         <?php endif; ?>
 

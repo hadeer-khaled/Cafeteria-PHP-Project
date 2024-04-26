@@ -45,18 +45,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // $users = file('users.txt');
     $valid_login = false;
+    $current_user = null;
     if(!empty($users)){
         foreach ($users as $user) {
             $user_info = $user;
             if ($user_info['email'] == $email && $user_info['password'] == $password) {
                 $valid_login = true;
+                $current_user = $user_info;
                 break;
             }
         }
     }
         
     if ($valid_login) {
-        $_SESSION['email'] = $email;
+        $_SESSION['user_id'] = $current_user['id'];
+        $_SESSION['username'] = $current_user['username'];
+        $_SESSION['user_image'] = $current_user['image'];
+        $_SESSION['user_role'] = $current_user['role'];
         header('Location: ../pages/products_table.php');
         exit;
     } else {
