@@ -14,19 +14,19 @@ function get_all_data()
 }
 
 function display_table($rows){
+    echo '<div class="rounded-circle p-2" style="width: fit-content; background-color: #BA6644;">
+    <a href="add_user_page.php">
+        <i class="fa-solid fa-plus" style="color:white;font-size: 23px;"></i>
+    </a>
+</div>';
     if (empty($rows)) {
         echo '
         <div class="m-auto d-flex align-items-baseline text-center" style="width:fit-content;">
             <h2 class="text-center mx-2">Product List is empty.</h2>
-            <div class="rounded-circle p-2" style="width: fit-content; background-color: #BA6644;">
-                <a href="add_user_page.php">
-                    <i class="fa-solid fa-plus" style="color:white;font-size: 23px;"></i>
-                </a>
-            </div>
         </div>';
     } else {
         echo "<table class='table'> <tr> <th>ID</th>  <th>Name</th>  <th>Email</th>
-        <th>password</th> <th>Role</th> <th>room_no</th> <th>image</th> <th>Edit</th> <th> Delete</th>
+        <th>password</th> <th>Role</th> <th>room_no</th> <th>image</th> <th>Actions</th> 
         </tr>";
 
         foreach ($rows as $row) {
@@ -38,8 +38,11 @@ function display_table($rows){
             foreach ($row as $value) {
                 echo "<td>{$value}</td>";
             }
-            echo "<td><a href='{$edit_url}' class='btn btn-warning'>Edit</a></td>";
-            echo "<td><a href='{$delete_url}' class='btn btn-danger'>Delete</a></td>";
+            echo "<td><a href='{$edit_url}' ><i class='fa-solid fa-pen-to-square' style = 'font-size: 20px;color: #1A4D2E;'>
+            </i></a>
+            |
+            <a href='{$delete_url}' ><i class='fa-solid fa-trash-can'  style = 'font-size: 20px;color: #8B322C;' ></i></a>
+            </td>";
             echo "</tr>";
         }
         echo "</table>";
