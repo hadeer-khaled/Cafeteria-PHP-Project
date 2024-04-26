@@ -139,6 +139,14 @@ if (!empty($orders)) {
                                                 <span class="product-quantity">Items: <strong>1</strong></span>
                                             </div>
                                         </div>
+                                        <div class="product-card">
+                                            <div style="position: relative;">
+                                                <img class="product-image" src="https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg" alt="">
+                                                <span class="price-tag">$5.00</span>
+                                                <p class="product-name">coffee</p>
+                                                <span class="product-quantity">Items: <strong>1</strong></span>
+                                            </div>
+                                        </div>
                                     </div>    
                                     <p class="total-price"><strong>Order Total: $10.00</strong></p>
                                 </div>
