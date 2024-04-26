@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
             $edit_data['confirmPassword'] = $user['password']; 
             $edit_data['room_id'] = $user['room_id'];
             $edit_data['image'] = $user['image'];
-
+            $edit_data['role'] = $user['role'];
 
 
     }
@@ -89,6 +89,25 @@ $rooms = $database->select("rooms")
                 <div class="text-danger"><?php echo $errors['room_id']; ?></div>
             <?php endif; ?>
         </div>
+        <div class="mb-3">
+    <label class="form-label">Role</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="userRole" value="user" <?php echo (isset($edit_data['role']) && $edit_data['role'] === 'user') ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="userRole">
+            User
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="role" id="adminRole" value="admin" <?php echo (isset($edit_data['role']) && $edit_data['role'] === 'admin') ? 'checked' : ''; ?>>
+        <label class="form-check-label" for="adminRole">
+            Admin
+        </label>
+    </div>
+    <?php if(isset($errors['role'])): ?>
+        <div class="text-danger"><?php echo $errors['role']; ?></div>
+    <?php endif; ?>
+</div>
+
         <div class="mb-3">
             <label for="image" class="form-label">Profile picture</label>
             <input type="file" name="image" id="image" accept="image/*" required
