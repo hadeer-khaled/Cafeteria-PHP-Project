@@ -23,7 +23,7 @@ $categories = $database->select("categories")
 <?php
     require '../inc/admin_navbar.php';
     ?>
-    <div class="container mt-5">
+    <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card form-shadow">
@@ -40,6 +40,10 @@ $categories = $database->select("categories")
                                 <div class="form-group mt-4">
                                     <label for="product_price">Product Price:</label>
                                     <input type="number" class="form-control" id="product_price" name="price" placeholder="ex: 90" required>
+                                </div>
+                                <div class="form-group mt-4">
+                                    <label for="product_stock">Stock:</label>
+                                    <input type="number" class="form-control" id="product_stock" name="stock" placeholder="ex: 50" required>
                                 </div>
                                 <div class="form-group mt-4">
                                     <label for="category_id">Category: <a href="add_category_page.php">Add Category</a> </label>
