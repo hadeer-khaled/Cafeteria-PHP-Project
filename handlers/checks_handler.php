@@ -13,26 +13,26 @@ $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
 $start_date = htmlspecialchars($start_date);
 $end_date = htmlspecialchars($end_date);
 $user_id = htmlspecialchars($user_id);
-echo "start query";
 
 
 
 $orders = $database->getOrdersByCriteria($start_date, $end_date, $user_id);
 
 
-var_dump($orders);
+// var_dump($orders);
 
-// if ($orders) {
-//     foreach ($orders as $order) {
-//         echo "Order ID: " . $order['order_id'] . "<br>";
-//         echo "Order Date: " . $order['order_date'] . "<br>";
-//         echo "Total Amount: $" . $order['total_amount'] . "<br>";
-//         echo "Notes: " . $order['notes'] . "<br>";
-//         echo "User: " . $order['username'] . "<br>";
-//         echo "<hr>";
-//     }
-// } else {
-//     echo "No orders found for the selected criteria.";
-// }
+if ($orders) {
+    foreach ($orders as $order) {
+        echo "<tr>";
+        echo "<td>" . $order['username']. "</td>";
+        echo "<td>" . $order['order_date'] . "</td>";
+        echo "<td>" . $order['status']  . "</td>";
+        echo "<td>" . $order['total_amount'] . "</td>";
+        echo "<hr>";
+        echo "</tr>";
+    }
+} else {
+    echo "No orders found for the selected criteria.";
+}
 
 ?>

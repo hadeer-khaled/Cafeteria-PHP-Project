@@ -52,6 +52,7 @@ require_once '../base.php';
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">User</th>
                         <th scope="col">Order Date</th>
                         <th scope="col">Status</th>
                         <th scope="col">Amount</th>

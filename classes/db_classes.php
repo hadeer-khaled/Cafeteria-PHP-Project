@@ -108,7 +108,7 @@ class Database {
     }
 
     public function getOrdersByCriteria($start_date, $end_date, $user_id = null) {
-        $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username 
+        $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username , o.status
                 FROM orders o
                 INNER JOIN users u ON o.user_id = u.id
                 WHERE o.order_date BETWEEN :start_date AND :end_date ";
