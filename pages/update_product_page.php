@@ -29,38 +29,64 @@ try {
 <?php
     require '../inc/admin_navbar.php';
     ?>
-    <div class="container">
-        <h2 class="mt-5 mb-4">Update Product</h2>
-        <form action="../handlers/update_product_handler.php" method="POST">
-            <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-            
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name"
-                value="<?php echo $product['name']; ?>">
-            </div>
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card form-shadow">
+                    <div class="card-header">
+                        <h2 class="text-center main-text-color">Edit Product</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="../handlers/update_product_handler.php" method="POST">
+                            <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                            <div class="form-group">
+                                <label for="product_name">Product Name:</label>
+                                <input type="text" class="form-control" id="product_name" name="name" 
+                                placeholder="ex: Mango juice" value="<?php echo $product['name']; ?>" required>
+                            </div>
+                            <div class="form-group mt-4">
+                                <label for="product_price">Product Price:</label>
+                                <input type="number" class="form-control" id="product_price" name="price" 
+                                placeholder="ex: 90" value="<?php echo $product['price']; ?>" required>
+                            </div>
+                      
+                            <div class="form-group mt-4">
+                                <label for="category_id">Category:</label>
+                                <select class="form-control" id="category_id" name="category_id" required>
+                                    <option value="">Select Category</option>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?php echo $category['id']; ?>" <?php echo ($category['id'] == $product['category_id']) ? 'selected' : ''; ?>>
+                                            <?php echo $category['name']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-            <div class="form-group mt-4">
-                <label for="product_price">Product Price:</label>
-                <input type="number" class="form-control" id="product_price" name="price" placeholder="ex: 90" 
-                value="<?php echo $product['price']; ?>" required>
+                            <!-- <div class="form-group mt-4">
+                                <label for="product_image">Product Image:</label>
+                                <input type="file" class="form-control-file" id="product_image" name="image" required>
+                            </div>
+                             -->
+                  
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn form-btn">Edit Product</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group mt-4">
-                <label for="category_id">Category:</label>
-                <select class="form-control" id="category_id" name="category_id" required>
-                    <option value="">Select Category</option>
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?php echo $category['id']; ?>" <?php echo ($category['id'] == $product['category_id']) ? 'selected' : ''; ?>>
-                            <?php echo $category['name']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+        </div>
     </div>
 </body>
 
 </html>
+
+
+
+
+            
+
+
+
+
+
