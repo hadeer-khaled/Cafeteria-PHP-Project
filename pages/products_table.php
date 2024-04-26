@@ -7,6 +7,8 @@ $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $products = $database->select("products");
 
 $productsWithCategories = [];
+$baseImagePath = "../assets/images/";
+
 
 if (!empty($products)) {
     foreach ($products as $product) {
@@ -67,7 +69,10 @@ if (!empty($products)) {
                                 <td><?php echo $product['id']; ?></td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><?php echo $product['price']; ?></td>
-                                <td><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="max-width: 100px;"></td>
+                                <td><img  src="<?php echo $baseImagePath . $product['image']; ?>"
+                                    alt="<?php echo $product['name']; ?>"
+                                    style="max-width: 50px;">
+                                </td>
                                 <td><?php echo $product['category_name']; ?></td>
                                 <td>
                                     <a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" >
