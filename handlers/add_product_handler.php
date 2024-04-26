@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $product_name = $_POST['name'];
     $product_price = $_POST['price'];
+    $product_stock = $_POST['stock'];
     $product_image_name = $_FILES['image']['name'];
     $product_image_tmp = $_FILES['image']['tmp_name']; 
     $category_id = $_POST['category_id'];
@@ -23,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (move_uploaded_file($product_image_tmp, $product_image_path)) {
         $table = "products";
-        $columns = "name, price, image, category_id";
-        $values = "'$product_name', '$product_price', '$product_image_name', '$category_id'";
+        $columns = "name, price, stock image, category_id";
+        $values = "'$product_name', '$product_price','$product_stock', '$product_image_name', '$category_id'";
 
         $result = $database->insert($table, $columns, $values);
 
