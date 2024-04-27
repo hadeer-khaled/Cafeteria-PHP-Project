@@ -1,13 +1,42 @@
 <?php
 require_once '../App.php';
 
+if ($request->ispost()) {
+    if ($request->post('removeItemId')){
+        $removeItemId = $_POST['removeItemId'];
+
+        $cartItems = $session->get('cart');
+
+        foreach ($cartItems as $key => $item) {
+            if ($item['id'] == $removeItemId) {
+                unset($cartItems[$key]);
+            }
+        }
+
+        $session->add('cart', $cartItems);
+
+        $request->redirect('../pages/Cart.php');
+        exit(); 
+    } elseif ($request->post('updateItemId')) {
+        $updateItemId = $_POST['updateItemId'];
+        $newQuantity = $_POST['quantity'][$updateItemId];
+
+        $cartItems = $session->get('cart');
+
+        foreach ($cartItems as &$item) {
+            if ($item['id'] == $updateItemId) {
+                $item['quantity'] = $newQuantity;
+            }
+        }
+
+        $session->add('cart', $cartItems);
+
+        $request->redirect('../pages/Cart.php');
+        exit(); 
+    }
+}
 
 $cartItems = $session->get('cart');
-print_r($cartItems);
-
-
-// session_destroy();
-
 $totalPrice = 0;
 ?>
 
@@ -38,11 +67,12 @@ $totalPrice = 0;
                         <td><?= $item['name']; ?></td>
                         <td>$<?= $item['price']; ?></td>
                         <td>
-                            <input type="number" name="quantity[]" value="<?= $item['quantity']; ?>" min="1">
+                            <input type="number" name="quantity[<?= $item['id']; ?>]" value="<?= $item['quantity']; ?>" min="1">
                             <input type="hidden" name="productId[]" value="<?= $item['id']; ?>">
                         </td>
                         <td>$<?= $item['price'] * $item['quantity']; ?></td>
                         <td>
+                            <button type="submit" class="btn btn-primary btn-sm" name="updateItemId" value="<?= $item['id']; ?>">Update</button>
                             <button type="submit" class="btn btn-danger btn-sm" name="removeItemId" value="<?= $item['id']; ?>">Remove</button>
                         </td>
                     </tr>
