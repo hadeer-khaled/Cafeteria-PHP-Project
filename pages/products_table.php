@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
@@ -7,6 +8,8 @@ $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $products = $database->select("products");
 
 $productsWithCategories = [];
+$baseImagePath = "../assets/images/";
+
 
 if (!empty($products)) {
     foreach ($products as $product) {
@@ -41,16 +44,14 @@ if (!empty($products)) {
                     </a>
                 </div>
 
-            </div>
-            
-            
+            </div>        
         <?php else: ?>
             <h2 class="text-center" >Products List</h2>
             <div class="table-responsive" style="position:relative; ">
             <div class="rounded-circle p-2 " style =" position:absolute;right: 0px;  width: fit-content; background-color: #BA6644;">
-                        <a href="<?php echo "add_product_page.php"; ?>">
-                            <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
-                        </a>
+                    <a href="<?php echo "add_product_page.php"; ?>">
+                        <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
+                    </a>
                 </div>      
             <table class="table table-striped mt-2" >
                     <thead>
@@ -66,10 +67,15 @@ if (!empty($products)) {
                     <tbody>
                         <?php foreach ($productsWithCategories as $product): ?>
                             <tr>
-                                <td><?php echo $product['id']; ?></td>
+                                <td><?php echo $product['id']; ?> 
+                              
+                             </td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><?php echo $product['price']; ?></td>
-                                <td><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="max-width: 100px;"></td>
+                                <td><img  src="<?php echo $baseImagePath . $product['image']; ?>"
+                                    alt="<?php echo $product['name']; ?>"
+                                    style="max-width: 50px;">
+                                </td>
                                 <td><?php echo $product['category_name']; ?></td>
                                 <td>
                                     <a href="<?php echo "../handlers/delete_product_handler.php?id={$product['id']}"; ?>" >

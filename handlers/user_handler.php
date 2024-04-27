@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $roomNo = $_POST['roomNo'];
+    $roomNo = $_POST['room_id'];
+    
     $errors = [];
 $old_data= [];
 if (empty($_POST["name"])){
@@ -28,10 +29,10 @@ if (empty($_POST["email"])){
     }
 }
 
-if (empty($_POST["roomNo"])){
-    $errors["roomNo"] = "roomNo is required";
+if (empty($_POST["room_id"])){
+    $errors["room_id"] = "roomNo is required";
 }else{
-    $old_data['roomNo'] = $_POST["roomNo"];
+    $old_data['room_id'] = $_POST["room_id"];
 }
 if (empty($_POST["password"])){
     $errors['password'] = "Password is required";
@@ -76,15 +77,16 @@ if (empty($_POST["password"])){
             $saved = move_uploaded_file($tmp_name, $path);
         
         }
-        $columns = "username, email, password, room_id, image";
-        $values = "'$name', '$email', '$password', '$roomNo', '$path' "; 
+        $columns = "username, email, password,room_id, image";
+        $values = "'$name', '$email', '$password','$roomNo', '$path' "; 
         if ($database->insert($table, $columns, $values)) {
             echo "Record inserted successfully.";
+             header("Location:../pages/users_table.php");
         } else {
             echo "Error inserting record.";
         }
 
-        //header("Location:login.php");
+       
     
     }
 
