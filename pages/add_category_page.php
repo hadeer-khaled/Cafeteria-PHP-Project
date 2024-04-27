@@ -30,7 +30,7 @@ if ($_SESSION["user_role"] != "admin") {
                         <form action="../handlers/add_category_handler.php" method="POST">
                             <div class="form-group">
                                 <label for="category_name" class="mb-1">Category Name:</label>
-                                <input type="text" class="form-control" id="category_name" name="category_name" required>
+                                <input type="text" class="form-control" id="category_name" name="category_name" required pattern="[A-Za-z\s]*">
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn form-btn mt-4">Add Category</button>
