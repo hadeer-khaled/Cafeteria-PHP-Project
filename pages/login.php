@@ -25,7 +25,8 @@ unset($_SESSION['old_data'], $_SESSION['errors']);
 </head>
 <body>
 <?php
-    require '../inc/admin_navbar.php';
+        require '../inc/login_navbar.php';
+    
     ?>
 <div class="container mt-2">
     <div class="row justify-content-center mt-5">
