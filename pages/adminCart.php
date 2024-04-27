@@ -1,11 +1,12 @@
 <?php
 require_once '../App.php';
 require_once '../inc/admin_navbar.php';
-if ($request->ispost()) {
-    var_dump($_POST); 
 
+$users = $database->select("users");
+
+if ($request->ispost()) {
     if ($request->post('removeItemId')) {
-        $removeItemId = $_POST['removeItemId'];
+        $removeItemId = $request->post('removeItemId');
 
         $cartItems = $session->get('cart');
 
@@ -17,11 +18,11 @@ if ($request->ispost()) {
 
         $session->add('cart', $cartItems);
 
-        $request->redirect('../pages/adminCart.php.');
-        exit(); 
+        $request->redirect('../pages/adminCart.php');
+        exit();
     } elseif ($request->post('updateItemId')) {
-        $updateItemId = $_POST['updateItemId'];
-        $newQuantity = $_POST['quantity'][$updateItemId];
+        $updateItemId = $request->post('updateItemId');
+        $newQuantity = $request->post('quantity')[$updateItemId];
 
         $cartItems = $session->get('cart');
 
@@ -34,46 +35,40 @@ if ($request->ispost()) {
         $session->add('cart', $cartItems);
 
         $request->redirect('../pages/adminCart.php');
-        exit(); 
+        exit();
     } elseif ($request->post('confirmOrder')) {
-        // Get user ID from session or wherever it's stored
-        $userId = 2; // Example user ID
-        
-        // Fetch user's room number from the database
-        $userRoom = $database->selectById('users', $userId)['room_id'];
-        
-        // Prepare order details
+        // Get the selected user ID from the dropdown menu
+        $selectedUserId = $request->post('userId');
+
+        $userRoom = $database->selectById('users', $selectedUserId)['room_id'];
+
         $orderDate = date('Y-m-d');
-        $notes = $request->post('notes'); // Assuming you have a 'notes' textarea in your form
-        
-        // Calculate total amount
+        $notes = $request->post('notes'); 
+
         $cartItems = $session->get('cart');
         $totalAmount = 0;
         foreach ($cartItems as $item) {
             $totalAmount += $item['price'] * $item['quantity'];
         }
-        
-// Insert order into 'orders' table
-$queryOrders = "INSERT INTO orders (user_id, order_date, total_amount, notes, room_id, `status`) VALUES (?, ?, ?, ?, ?, ?)";
-$statement = $database->prepare($queryOrders);
-$statement->execute([$userId, $orderDate, $totalAmount, $notes, $userRoom, 'pending']);
-$orderId = $database->lastInsertId();
 
-// Insert order items into 'order_items' table
-foreach ($cartItems as $item) {
-    $productId = $item['id'];
-    $quantity = $item['quantity'];
-    $productPrice = $item['price'];
-    
-    $queryOrderItems = "INSERT INTO order_items (product_id, order_id, quantity, product_price) VALUES (?, ?, ?, ?)";
-    $statement = $database->prepare($queryOrderItems);
-    $statement->execute([$productId, $orderId, $quantity, $productPrice]);
-}
+        $queryOrders = "INSERT INTO orders (user_id, order_date, total_amount, notes, room_id, `status`) VALUES (?, ?, ?, ?, ?, ?)";
+        $statement = $database->prepare($queryOrders);
+        $statement->execute([$selectedUserId, $orderDate, $totalAmount, $notes, $userRoom, 'pending']);
+        $orderId = $database->lastInsertId();
 
-        
+        foreach ($cartItems as $item) {
+            $productId = $item['id'];
+            $quantity = $item['quantity'];
+            $productPrice = $item['price'];
+
+            $queryOrderItems = "INSERT INTO order_items (product_id, order_id, quantity, product_price) VALUES (?, ?, ?, ?)";
+            $statement = $database->prepare($queryOrderItems);
+            $statement->execute([$productId, $orderId, $quantity, $productPrice]);
+        }
+
         $session->remove('cart');
-        
-        $request->redirect('../pages/index.php');
+
+        $request->redirect('../pages/admin.php');
         exit();
     }
 }
@@ -88,14 +83,23 @@ $totalPrice = 0;
     <title>Confirm Order</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/cartStyle.css" rel="stylesheet">
-    
-
 </head>
 <body>
     <div class="container">
         <h1 class="mt-5 text-center">Confirm Your Order</h1>
         <?php if (!empty($cartItems)): ?>
         <form action="adminCart.php" method="post">
+            <!-- Dropdown menu to select user -->
+            <div class="form-group">
+                <label for="userId">Select User:</label>
+                <select class="form-control" id="userId" name="userId">
+                    <?php foreach ($users as $user): ?>
+                        <option value="<?= $user['id']; ?>"><?= $user['username']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <!-- End of dropdown menu -->
+
             <table class="table mt-3">
                 <thead>
                     <tr>
@@ -146,4 +150,3 @@ $totalPrice = 0;
     </div>
 </body>
 </html>
-

@@ -98,8 +98,7 @@
                             </div>
                             <img  src="<?php echo $baseImagePath . $product['image']; ?>"
                                     alt="<?php echo $product['name']; ?>"
-                                    style="max-width: 200px;">                            <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
-                                
+                                    style="max-width: 200px;">                            <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">y
                                 <input type="hidden" name="productId" value="<?= $product['id']; ?>">
                                 <div class="form-group">
                                     <label for="quantity<?= $product['id']; ?>">Quantity:</label>
