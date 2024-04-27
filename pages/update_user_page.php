@@ -3,6 +3,8 @@ require_once '../env.php';
 require_once '../base.php';
 require_once '../classes/db_classes.php'; 
 $edit_data = [];
+session_start();
+
 if (isset($_GET['id'])) {
     $user_id = $_GET['id'];
     $database = Database::getInstance();
@@ -39,7 +41,10 @@ $rooms = $database->select("rooms")
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
+<?php
+    require '../inc/admin_navbar.php';
+    ?>
+<div class="container mt-2">
     <h1>Update your data</h1>
     <form action="../handlers/update_user_handler.php?id=<?php echo $_GET['id']; ?>" method="post" enctype="multipart/form-data">
         <div class="mb-3">

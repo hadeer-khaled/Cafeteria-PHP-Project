@@ -5,6 +5,8 @@ echo '
 
 require_once '../classes/db_classes.php'; 
 
+session_start();
+
 function get_all_data()
 {
     $database = Database::getInstance();
@@ -50,5 +52,8 @@ function display_table($rows){
 }
 
 $rows = get_all_data();
+
+require '../inc/admin_navbar.php';
+
 display_table($rows);
 ?>

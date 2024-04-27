@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
@@ -66,7 +67,9 @@ if (!empty($products)) {
                     <tbody>
                         <?php foreach ($productsWithCategories as $product): ?>
                             <tr>
-                                <td><?php echo $product['id']; ?></td>
+                                <td><?php echo $product['id']; ?> 
+                              
+                             </td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><?php echo $product['price']; ?></td>
                                 <td><img  src="<?php echo $baseImagePath . $product['image']; ?>"
