@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/db_classes.php'; 
+session_start();
 
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
