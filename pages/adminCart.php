@@ -17,7 +17,7 @@ if ($request->ispost()) {
 
         $session->add('cart', $cartItems);
 
-        $request->redirect('../pages/Cart.php');
+        $request->redirect('../pages/adminCart.php.');
         exit(); 
     } elseif ($request->post('updateItemId')) {
         $updateItemId = $_POST['updateItemId'];
@@ -33,7 +33,7 @@ if ($request->ispost()) {
 
         $session->add('cart', $cartItems);
 
-        $request->redirect('../pages/Cart.php');
+        $request->redirect('../pages/adminCart.php');
         exit(); 
     } elseif ($request->post('confirmOrder')) {
         // Get user ID from session or wherever it's stored
@@ -95,7 +95,7 @@ $totalPrice = 0;
     <div class="container">
         <h1 class="mt-5 text-center">Confirm Your Order</h1>
         <?php if (!empty($cartItems)): ?>
-        <form action="Cart.php" method="post">
+        <form action="adminCart.php" method="post">
             <table class="table mt-3">
                 <thead>
                     <tr>

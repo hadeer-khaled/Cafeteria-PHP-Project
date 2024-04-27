@@ -69,13 +69,13 @@
             </div> 
             <div class="row">
                 <div class="col-md-12">
-                <form action="products.php" method="post">
+                <form action="index.php" method="post">
                     
                 <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-md-12 search-container">
                 <div class="search">
-                    <form action="products.php" method="post">
+                    <form action="index.php" method="post">
                         <input class="search_input" type="text" name="search" placeholder="Search here...">
                         <button type="submit" class="search_icon"><i class="fa fa-search"></i></button>
                     </form>
@@ -116,6 +116,10 @@
             </div>
         </div>
     </section>
-    
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
 </body>
 </html>
