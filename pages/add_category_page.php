@@ -1,5 +1,9 @@
 <?php
 require_once '../base.php';
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,3 +39,6 @@ require_once '../base.php';
     </div>
 </body>
 </html>
+<?php
+}
+?>

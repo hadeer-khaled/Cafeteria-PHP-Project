@@ -30,7 +30,12 @@ if (!empty($order_items)) {
 }
 
 ?>
-
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,3 +87,6 @@ if (!empty($order_items)) {
     </div>
 </body>
 </html>
+<?php
+}
+?>

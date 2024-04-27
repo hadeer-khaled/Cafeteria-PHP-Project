@@ -16,6 +16,12 @@ try {
 }
 
 ?>
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,6 +86,9 @@ try {
 </body>
 
 </html>
+<?php
+}
+?>
 
 
 

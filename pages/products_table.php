@@ -23,6 +23,12 @@ if (!empty($products)) {
     // var_dump( $productsWithCategories);
 }
 ?>
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 
 
 <!DOCTYPE html>
@@ -68,7 +74,9 @@ if (!empty($products)) {
                         <?php foreach ($productsWithCategories as $product): ?>
                             <tr>
                                 <td><?php echo $product['id']; ?> 
-                              
+                                
+                               
+            
                              </td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><?php echo $product['price']; ?></td>
@@ -97,3 +105,6 @@ if (!empty($products)) {
 </body>
 </html>
 
+<?php
+}
+?>
