@@ -41,7 +41,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  style="color: white;"href="#">
+        <a class="nav-link"  style="color: white;"href="../pages/checks.php">
          Checks
         </a>
       </li>
