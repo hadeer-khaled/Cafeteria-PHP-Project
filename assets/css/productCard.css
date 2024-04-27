@@ -36,3 +36,13 @@
 .text-center {
     text-align: center;
 }
+
+.btnn{
+    background-color: #BA6644;
+    color: white;
+}
+.btnn:hover{
+    background-color:  white;
+    color: #BA6644;
+    border: 1px solid #BA6644;
+}

@@ -1,6 +1,6 @@
 <?php
 require_once '../App.php';
-
+require_once '../inc/admin_navbar.php';
 if ($request->ispost()) {
     var_dump($_POST); 
 
@@ -87,13 +87,14 @@ $totalPrice = 0;
 <head>
     <title>Confirm Order</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/cartStyle.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Confirm Your Order</h1>
+        <h1 class="mt-5 text-center">Confirm Your Order</h1>
         <?php if (!empty($cartItems)): ?>
         <form action="Cart.php" method="post">
-            
             <table class="table mt-3">
                 <thead>
                     <tr>
@@ -110,7 +111,7 @@ $totalPrice = 0;
                         <td><?= $item['name']; ?></td>
                         <td>$<?= $item['price']; ?></td>
                         <td>
-                            <input type="number" name="quantity[<?= $item['id']; ?>]" value="<?= $item['quantity']; ?>" min="1">
+                            <input type="number" name="quantity[<?= $item['id']; ?>]" value="<?= $item['quantity']; ?>" min="1" class="form-control">
                             <input type="hidden" name="productId[]" value="<?= $item['id']; ?>">
                         </td>
                         <td>$<?= $item['price'] * $item['quantity']; ?></td>
@@ -137,7 +138,6 @@ $totalPrice = 0;
                 <button type="submit" class="btn btn-primary" name="confirmOrder">Confirm Order</button>
                 <input type="hidden" name="confirmOrder" value="1"> 
             </div>
-
         </form>
         <?php else: ?>
         <p>Your cart is empty</p>
@@ -145,3 +145,4 @@ $totalPrice = 0;
     </div>
 </body>
 </html>
+
