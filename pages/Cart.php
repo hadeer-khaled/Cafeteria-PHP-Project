@@ -36,15 +36,14 @@ if ($request->ispost()) {
         $request->redirect('../pages/Cart.php');
         exit(); 
     } elseif ($request->post('confirmOrder')) {
-        // Get user ID from session or wherever it's stored
-        $userId = 2; // Example user ID
-        
+        // Get user ID from session 
+        $userId=$session->get('user_id');
         // Fetch user's room number from the database
         $userRoom = $database->selectById('users', $userId)['room_id'];
         
         // Prepare order details
         $orderDate = date('Y-m-d');
-        $notes = $request->post('notes'); // Assuming you have a 'notes' textarea in your form
+        $notes = $request->post('notes'); 
         
         // Calculate total amount
         $cartItems = $session->get('cart');
