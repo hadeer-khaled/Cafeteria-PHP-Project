@@ -1,6 +1,12 @@
 <?php
 require_once '../classes/db_classes.php'; 
 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php'); 
+    exit();
+}
+
+
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -8,6 +14,7 @@ $orders = $database->select("orders");
 
 $productsWithCategories = [];
 $baseImagePath = "../assets/images/";
+
 
 
 if (!empty($orders)) {

@@ -62,8 +62,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $current_user['username'];
         $_SESSION['user_image'] = $current_user['image'];
         $_SESSION['user_role'] = $current_user['role'];
-        header('Location: ../pages/products_table.php');
-        exit;
+        function generate_user_token() {
+            return md5(uniqid(mt_rand(), true));
+        }
+        $user_token = generate_user_token();
+        setcookie('auth_token', $user_token, time() + (86400 * 30), '/');
+        header('Location: logged_in.php');
+        exit();
+
     } else {
         $errors['login'] = 'Invalid email or password.';
         $_SESSION['errors'] = $errors;
