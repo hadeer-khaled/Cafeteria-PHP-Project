@@ -55,7 +55,7 @@ require '../inc/admin_navbar.php';
                         </select>
                     </div>
                     <div class="col">
-                        <button type="button" id="search-button" class="btn btn-outline-success">Search</button>
+                        <button type="button" id="search-button" class="btn form-btn form-btn:hover">Search</button>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@ require '../inc/admin_navbar.php';
                         echo "<td>" . $order['order_date'] . "</td>";
                         echo "<td>" . $order['status'] . "</td>";
                         echo "<td>" . $order['total_amount'] . "</td>";
-                        echo "<td> <a href='{$details_url}' class= 'btn btn-outline-primary'> Details</a></td>";
+                        echo "<td> <a href='{$details_url}' class= 'btn' style='background-color:#202738; color: white'> Details</a></td>";
                         echo "</tr>";
                     }
                     ?>
