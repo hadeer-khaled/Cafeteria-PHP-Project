@@ -42,7 +42,7 @@ $orders = $database->select("orders");
                                     </div>
                                 </div>
                                 <div class="col-12 text-center mt-2">
-                                    <button id="search" type="submit" class="btn btn-primary mx-2 text-light">Search</button>
+                                    <button id="search-button" type="submit" class="btn form-btn form-btn:hover">Search</button>
                                 </div>
                             </div>
                         </form>
@@ -63,9 +63,12 @@ $orders = $database->select("orders");
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="orderTableBody">
+                        <tbody id="orders-table-body">
                             <?php if (!empty($orders)) {
                                 foreach ($orders as $order) { ?>
+                                    <?php $order_items = $database->selectOrderItemsByOrderId($order['id']);
+                                    $total_amount = 0;
+                                    ?>
                                     <tr class="order">
                                         <td>
                                             <span><?= $order['order_date'] ?></span>
@@ -77,7 +80,13 @@ $orders = $database->select("orders");
                                         </td>
 
                                         <td>
-                                            <span><?= $order['total_amount'] ?></span> $
+                                            <?php
+                                            foreach ($order_items as $item) {
+                                                $product = $database->selectById("products", $item['product_id']);
+                                                $total_amount += $product['price'] * $item['quantity'];
+                                            }
+                                            ?>
+                                            <span><?= $total_amount ?></span> $
                                         </td>
                                         <td>
                                             <?php if ($order["status"] == 'processing') { ?>
@@ -98,31 +107,22 @@ $orders = $database->select("orders");
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <?php
-                                                  $order_items = $database->selectOrderItemsByOrderId($order['id']);
-                                                  $displayed_products = []; 
-
-                                                  if (!empty($order_items)) {
-                                                    foreach ($order_items as $item) {
-                                                      $product_id = $item['product_id'];
-                                                      $product = $database->selectById("products", $product_id);
-        
-                                                      if (!empty($product) && !in_array($product_id, $displayed_products)) {
-                                                        $displayed_products[] = $product_id;
-                                                ?>
-                                                <tr>
-                                                  <td><?= $product['name'] ?></td>
-                                                  <td><?= $product['price'] ?></td>
-                                                  <td><?= $item['quantity'] ?></td>
-                                                  <td><?= $product['price'] * $item['quantity'] ?></td>
-                                                </tr>
-                                            <?php
-                                          }
-                                        }
-                                      } else {
-                                        echo "<tr><td colspan='4'>No items found for this order.</td></tr>";
-                                      }
-                                    ?>
+                                                    <?php
+                                                    if (!empty($order_items)) {
+                                                        foreach ($order_items as $item) {
+                                                            $product = $database->selectById("products", $item['product_id']);
+                                                    ?>
+                                                            <tr>
+                                                                <td><?= $product['name'] ?></td>
+                                                                <td><?= $product['price'] ?></td>
+                                                                <td><?= $item['quantity'] ?></td>
+                                                                <td><?= $product['price'] * $item['quantity'] ?></td>
+                                                            </tr>
+                                                    <?php }
+                                                    } else {
+                                                        echo "<tr><td colspan='4'>No items found for this order.</td></tr>";
+                                                    }
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </td>
@@ -156,6 +156,27 @@ $orders = $database->select("orders");
                 });
             });
 
+        });
+
+
+        document.getElementById('search-button').addEventListener('click', function() {
+            var formData = new FormData(document.getElementById('search-form'));
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../handlers/checks_handler.php', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('orders-table-body').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send(formData);
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('start_date').value = today;
+            document.getElementById('end_date').value = today;
         });
     </script>
 </body>
