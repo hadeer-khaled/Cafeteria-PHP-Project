@@ -1,10 +1,32 @@
 <?php
 require_once '../App.php'; 
+;
 
-$database = Database::getInstance();
-$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$searchQuery = $request->post('search');
 
-$products = $database->select("products");
+if ($searchQuery) {
+    $_SESSION['searchQuery'] = $searchQuery;
+} else {
+    if (isset($_SESSION['searchQuery'])) {
+        unset($_SESSION['searchQuery']);
+    }
+}
+
+if (isset($_SESSION['searchQuery'])) {
+    $searchQuery = $_SESSION['searchQuery'];
+    $sql = "SELECT * FROM products WHERE name LIKE '%$searchQuery%'";
+
+    $statement = $database->prepare($sql);
+
+    $statement->execute();
+
+    $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    unset($_SESSION['searchQuery']);
+
+    $products = $database->select("products");
+
+}
 
 $productsWithCategories = [];
 
@@ -38,25 +60,43 @@ if (!empty($products)) {
                 </div>
             </div> 
             <div class="row">
-                <?php foreach ($productsWithCategories as $product): ?>
-                <div class="col-lg-4 mb-4">
-                    <div class="single-menu">
-                        <div class="title-div justify-content-between d-flex">
-                            <h4><?= $product['name']; ?></h4>
-                            <p class="price float-right">$<?= $product['price']; ?></p>
+                <div class="col-md-12">
+                <form action="products.php" method="post">
+                        <div class="form-group">
+                            <label for="search">Search Product:</label>
+                            <input type="text" class="form-control" id="search" name="search" placeholder="Enter product name">
                         </div>
-                        <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" style="max-width: 100px;">
-                        <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
-                            <input type="hidden" name="productId" value="<?= $product['id']; ?>">
-                            <div class="form-group">
-                                <label for="quantity<?= $product['id']; ?>">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity<?= $product['id']; ?>" class="form-control" value="1" min="1">
-                            </div>
-                            <button type="submit" class="btn btn-primary" name="addToCart">Add to Cart</button>
-                        </form>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
                 </div>
-                <?php endforeach; ?>
+            </div>
+            <div class="row">
+                <?php if (!empty($productsWithCategories)): ?>
+                    <?php foreach ($productsWithCategories as $product): ?>
+                    <div class="col-lg-4 mb-4">
+                        <div class="single-menu">
+                            <div class="title-div justify-content-between d-flex">
+                                <h4><?= $product['name']; ?></h4>
+                                <p class="price float-right">$<?= $product['price']; ?></p>
+                            </div>
+                            <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" style="max-width: 100px;">
+                            <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
+                                
+                                <input type="hidden" name="productId" value="<?= $product['id']; ?>">
+                                <div class="form-group">
+                                    <label for="quantity<?= $product['id']; ?>">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity<?= $product['id']; ?>" class="form-control" value="1" min="1">
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="addToCart">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-md-12">
+                        <p>No products found.</p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>

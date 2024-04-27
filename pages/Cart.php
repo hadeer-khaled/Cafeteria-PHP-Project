@@ -93,6 +93,7 @@ $totalPrice = 0;
         <h1 class="mt-5">Confirm Your Order</h1>
         <?php if (!empty($cartItems)): ?>
         <form action="Cart.php" method="post">
+            
             <table class="table mt-3">
                 <thead>
                     <tr>
