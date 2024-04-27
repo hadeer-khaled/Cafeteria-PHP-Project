@@ -1,26 +1,10 @@
 <?php
-
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-// Check if a date range is specified
-if (isset($_GET['start']) && isset($_GET['end'])) {
-    // Sanitize and validate the dates
-    $start_date = $_GET['start'];
-    $end_date = $_GET['end'];
-    // Fetch orders within the specified date range
-    $orders = $database->select("orders", "WHERE order_date BETWEEN '$start_date' AND '$end_date'");
-} else {
-    // Fetch all orders if no date range is specified
-    $orders = $database->select("orders");
-}
-
-$user_id = 7; // Assuming the user ID is hardcoded for demonstration purposes
-
-$totalAmount = 0; // Initialize total amount variable
-
+$orders = $database->select("orders");
 ?>
 
 
@@ -85,7 +69,7 @@ $totalAmount = 0; // Initialize total amount variable
                                     <tr class="order">
                                         <td>
                                             <span><?= $order['order_date'] ?></span>
-                                            <i class="fa fa-plus-square mx-5 toggle-details" data-order-id="<?= $order['id'] ?>"></i>
+                                            <i class="fa-solid fa-square-caret-down mx-5 toggle-details" data-order-id="<?= $order['id'] ?>"></i>
                                         </td>
 
                                         <td class="<?= strtolower($order['status']) ?>">
@@ -96,14 +80,14 @@ $totalAmount = 0; // Initialize total amount variable
                                             <span><?= $order['total_amount'] ?></span> $
                                         </td>
                                         <td>
-                                            <?php if ($order["status"] == 'Processing') { ?>
+                                            <?php if ($order["status"] == 'processing') { ?>
                                                 <a href='../handlers/cancel_order_handler.php?id=<?= $order['id'] ?>' class='cancel btn btn-danger'>Cancel</a>
                                             <?php } ?>
                                         </td>
                                     </tr>
                                     <tr class="order-details" id="orderDetails<?= $order['id'] ?>" style="display: none;">
                                         <td colspan="4">
-                                            <!-- Order details will appear here -->
+                                            <!-- order details -->
                                             <table class="table">
                                                 <thead>
                                                     <tr>
@@ -115,44 +99,50 @@ $totalAmount = 0; // Initialize total amount variable
                                                 </thead>
                                                 <tbody>
                                                 <?php
-                                                    $order_id = $order['id'];
-                                                    // Fetch order items for this order
-                                                    $orderItems = $database->select("order_items");
-                                                    // Loop through order items and display them
-                                                    foreach ($orderItems as $orderItem) {
-                                                        // Fetch product name for this order item
-                                                        $product_id = $orderItem['product_id'];
-                                                        $product = $database->selectById("products", $product_id);
-                                                        // Display order item details
+                                                  $order_items = $database->selectOrderItemsByOrderId($order['id']);
+                                                  $displayed_products = []; 
+
+                                                  if (!empty($order_items)) {
+                                                    foreach ($order_items as $item) {
+                                                      $product_id = $item['product_id'];
+                                                      $product = $database->selectById("products", $product_id);
+        
+                                                      if (!empty($product) && !in_array($product_id, $displayed_products)) {
+                                                        $displayed_products[] = $product_id;
                                                 ?>
-                                                        <tr>
-                                                            <td><?= $product['name'] ?></td>
-                                                            <td><?= $orderItem['product_price'] ?></td>
-                                                            <td><?= $orderItem['quantity'] ?></td>
-                                                            <td><?= $orderItem['product_price'] * $orderItem['quantity'] ?></td>
-                                                        </tr>
-                                                <?php } ?>
+                                                <tr>
+                                                  <td><?= $product['name'] ?></td>
+                                                  <td><?= $product['price'] ?></td>
+                                                  <td><?= $item['quantity'] ?></td>
+                                                  <td><?= $product['price'] * $item['quantity'] ?></td>
+                                                </tr>
+                                            <?php
+                                          }
+                                        }
+                                      } else {
+                                        echo "<tr><td colspan='4'>No items found for this order.</td></tr>";
+                                      }
+                                    ?>
                                                 </tbody>
                                             </table>
                                         </td>
                                     </tr>
                             <?php }
                             } else { ?>
-                                <div class="alert alert-warning" role="alert">No orders found.</div>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="alert alert-warning" role="alert">No orders found.</div>
+                                    </td>
+                                </tr>
                             <?php } ?>
                         </tbody>
                     </table>
-                    <div class="total-price">
-                        <h3 class="text-light">Total</h3>
-                        <h4 class="text-light"><span id="totalAmount" class="text-light"><?= $totalAmount ?></span> $</h4>
-                    </div>
                 </div>
             </div>
         </section>
     </main>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-        // Add event listener to toggle order details
         document.addEventListener("DOMContentLoaded", function() {
             const toggleDetailsButtons = document.querySelectorAll(".toggle-details");
             toggleDetailsButtons.forEach(button => {
@@ -160,8 +150,12 @@ $totalAmount = 0; // Initialize total amount variable
                     const orderId = button.dataset.orderId;
                     const orderDetails = document.getElementById(`orderDetails${orderId}`);
                     orderDetails.style.display = orderDetails.style.display === "none" ? "table-row" : "none";
+                    if (orderDetails.style.display !== "none") {
+                        fetchOrderDetails(orderId);
+                    }
                 });
             });
+
         });
     </script>
 </body>

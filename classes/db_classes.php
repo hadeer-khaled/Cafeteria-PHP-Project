@@ -106,6 +106,43 @@ class Database {
             echo "Error selecting record by id: " . $e->getMessage();
         }
     }
+
+    public function getOrdersByCriteria($start_date, $end_date, $user_id = null) {
+        $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username , o.status
+                FROM orders o
+                INNER JOIN users u ON o.user_id = u.id
+                WHERE o.order_date BETWEEN :start_date AND :end_date ";
+        if (!empty($user_id)) {
+            $sql .= " AND o.user_id = :user_id";
+        }
+        $statement = $this->connection->prepare($sql);
+
+        $statement->bindParam(':start_date', $start_date);
+        $statement->bindParam(':end_date', $end_date);
+        if (!empty($user_id)) {
+            $statement->bindParam(':user_id', $user_id);
+        }
+        $statement->execute();
+
+        $orders = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $orders;
+    }
+
+    public function selectOrderItemsByOrderId($order_id) {
+        $query = "SELECT * FROM order_items WHERE order_id = :order_id";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    
+        try {
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error selecting order items: " . $e->getMessage();
+            return false;
+        }
+    }
     
 
 
