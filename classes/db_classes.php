@@ -11,6 +11,12 @@ class Database {
     {
 
     }
+    public function prepare($query) {
+        return $this->connection->prepare($query);
+    }
+    public function lastInsertId() {
+        return $this->connection->lastInsertId();
+    }
 
     public static function getInstance() 
     {

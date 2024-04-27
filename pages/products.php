@@ -46,7 +46,7 @@ if (!empty($products)) {
                             <p class="price float-right">$<?= $product['price']; ?></p>
                         </div>
                         <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" style="max-width: 100px;">
-                        <form action="../handlers/handleCart.php" method="post" class="mt-3">
+                        <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
                             <input type="hidden" name="productId" value="<?= $product['id']; ?>">
                             <div class="form-group">
                                 <label for="quantity<?= $product['id']; ?>">Quantity:</label>

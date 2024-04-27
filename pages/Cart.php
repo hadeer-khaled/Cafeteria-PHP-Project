@@ -2,7 +2,9 @@
 require_once '../App.php';
 
 if ($request->ispost()) {
-    if ($request->post('removeItemId')){
+    var_dump($_POST); 
+
+    if ($request->post('removeItemId')) {
         $removeItemId = $_POST['removeItemId'];
 
         $cartItems = $session->get('cart');
@@ -33,6 +35,46 @@ if ($request->ispost()) {
 
         $request->redirect('../pages/Cart.php');
         exit(); 
+    } elseif ($request->post('confirmOrder')) {
+        // Get user ID from session or wherever it's stored
+        $userId = 2; // Example user ID
+        
+        // Fetch user's room number from the database
+        $userRoom = $database->selectById('users', $userId)['room_id'];
+        
+        // Prepare order details
+        $orderDate = date('Y-m-d');
+        $notes = $request->post('notes'); // Assuming you have a 'notes' textarea in your form
+        
+        // Calculate total amount
+        $cartItems = $session->get('cart');
+        $totalAmount = 0;
+        foreach ($cartItems as $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
+        }
+        
+// Insert order into 'orders' table
+$queryOrders = "INSERT INTO orders (user_id, order_date, total_amount, notes, room_id, `status`) VALUES (?, ?, ?, ?, ?, ?)";
+$statement = $database->prepare($queryOrders);
+$statement->execute([$userId, $orderDate, $totalAmount, $notes, $userRoom, 'pending']);
+$orderId = $database->lastInsertId();
+
+// Insert order items into 'order_items' table
+foreach ($cartItems as $item) {
+    $productId = $item['id'];
+    $quantity = $item['quantity'];
+    $productPrice = $item['price'];
+    
+    $queryOrderItems = "INSERT INTO order_items (product_id, order_id, quantity, product_price) VALUES (?, ?, ?, ?)";
+    $statement = $database->prepare($queryOrderItems);
+    $statement->execute([$productId, $orderId, $quantity, $productPrice]);
+}
+
+        
+        $session->remove('cart');
+        
+        $request->redirect('../pages/products.php');
+        exit();
     }
 }
 
@@ -91,8 +133,10 @@ $totalPrice = 0;
                 <textarea name="notes" id="notes" rows="4" class="form-control"></textarea>
             </div>
             <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Confirm Order</button>
+                <button type="submit" class="btn btn-primary" name="confirmOrder">Confirm Order</button>
+                <input type="hidden" name="confirmOrder" value="1"> 
             </div>
+
         </form>
         <?php else: ?>
         <p>Your cart is empty</p>

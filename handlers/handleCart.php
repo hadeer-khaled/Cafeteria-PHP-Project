@@ -11,7 +11,7 @@ if ($request->ispost()) {
         foreach ($cartItems as $item) {
             if ($item['id'] == $productId) {
                 $productExists = true;
-                $item['quantity'] += $quantity;
+                $item['quantity'] = intval($item['quantity']) + intval($quantity);
                 break;
             }
         }
