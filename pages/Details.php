@@ -8,7 +8,6 @@ $order_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if (!$order_id) {
     header("Location: checks.php");
-    exit();
 }
 
 $order = $database->selectById("orders", $order_id);
@@ -49,7 +48,7 @@ if (!empty($order_items)) {
                 <p><strong>Order ID:</strong> <?php echo $order['id']; ?></p>
                 <p><strong>Order Date:</strong> <?php echo $order['order_date']; ?></p>
                 <p><strong>Status:</strong> <?php echo $order['status']; ?></p>
-                <p><strong>Total Amount:</strong> <?php echo $order['total_amount']; ?></p>
+                <p><strong>Total Amount:</strong> <?php echo $order['total_amount'] ."<span class='badge text-bg-success'>$</span>";?></p>
             </div>
         </div>
         <div class="card mt-3">
@@ -72,7 +71,7 @@ if (!empty($order_items)) {
                                 <td><?php echo $index + 1; ?></td>
                                 <td><img src="<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>" style="max-width: 50px;"></td>
                                 <td><?php echo $item['product_name']; ?></td>
-                                <td><?php echo $item['product_price']; ?></td>
+                                <td><?php echo $item['product_price'] ."<span class='badge text-bg-success'>$</span>";?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
