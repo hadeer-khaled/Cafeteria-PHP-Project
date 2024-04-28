@@ -55,7 +55,13 @@
 
 </head>
 <body>
-
+<?php
+    if ($session->hasSession('auth_token')){
+    require '../inc/user_navbar.php';
+}else{
+    require '../inc/login_navbar.php';
+}
+    ?>
 
     <section class="menu-area" id="coffee">
         <div class="container">
