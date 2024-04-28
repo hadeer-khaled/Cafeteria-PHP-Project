@@ -67,7 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $user_token = generate_user_token();
         setcookie('auth_token', $user_token, time() + (86400 * 30), '/');
-        header('Location: products_table.php');
+        if( $_SESSION['user_role']  == "admin"){
+            header('Location: ../pages/admin.php');
+        }else{
+            header('Location: ../pages/index.php');
+        }
         exit();
 
     } else {

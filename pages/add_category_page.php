@@ -13,10 +13,11 @@ if ($_SESSION["user_role"] != "admin") {
 </head>
 <body>
     <?php
-    if (isset($_SESSION['username'])){
-        require '../inc/admin_navbar.php';
+    // if (isset($_SESSION['auth_token'])){
+    if (isset($_COOKIE['auth_token'])){
+        require_once '../inc/admin_navbar.php';
     }else{
-        require '../inc/login_navbar.php';
+        require_once '../inc/login_navbar.php';
     }
     ?>
     <div class="container mt-5">

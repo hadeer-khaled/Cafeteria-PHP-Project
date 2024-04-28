@@ -56,7 +56,8 @@
 <body>
 
 <?php
-if (isset($_SESSION['username'])){
+// if (isset($_SESSION['username'])){
+    if (isset($_COOKIE['auth_token'])){
     require '../inc/user_navbar.php';
 }else{
     require '../inc/login_navbar.php';
