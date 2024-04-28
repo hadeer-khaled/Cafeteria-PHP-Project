@@ -5,7 +5,7 @@ session_start();
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-$user_id = 1;
+$user_id = $_SESSION["user_id"];
 
 if(isset($_GET['start']) && isset($_GET['end'])) {
     $start_date = $_GET['start'];

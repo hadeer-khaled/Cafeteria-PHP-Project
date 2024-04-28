@@ -16,7 +16,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page"   style="color: white;" href="#">
+        <a class="nav-link active" aria-current="page"   style="color: white;" href="../pages/admin.php">
           Home
         </a>
       </li>

@@ -111,7 +111,13 @@
                                     <label for="quantity<?= $product['id']; ?>">Quantity:</label>
                                     <input type="number" name="quantity" id="quantity<?= $product['id']; ?>" class="form-control" value="1" min="1">
                                 </div>
+                                <?php
+                                if (isset($_COOKIE['auth_token'])){
+                                ?>
                                 <button type="submit" class="btn form-btn" name="addToCart">Add to Cart</button>
+                                <?php
+                             }
+                             ?>
                             </form>
                         </div>
                     </div>

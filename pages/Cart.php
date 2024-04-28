@@ -1,6 +1,7 @@
 <?php
 require_once '../App.php';
 require_once '../inc/admin_navbar.php';
+
 if ($request->ispost()) {
     var_dump($_POST); 
 
@@ -52,7 +53,8 @@ if ($request->ispost()) {
             $totalAmount += $item['price'] * $item['quantity'];
         }
         
-// Insert order into 'orders' table
+
+        // Insert order into 'orders' table
 $queryOrders = "INSERT INTO orders (user_id, order_date, total_amount, notes, room_id, `status`) VALUES (?, ?, ?, ?, ?, ?)";
 $statement = $database->prepare($queryOrders);
 $statement->execute([$userId, $orderDate, $totalAmount, $notes, $userRoom, 'pending']);
