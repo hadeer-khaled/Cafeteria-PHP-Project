@@ -1,19 +1,27 @@
 <?php
 require_once '../classes/db_classes.php'; 
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); 
-    exit();
-}
+// if (!isset($_SESSION['user_id'])) {
+//     header('Location: login.php'); 
+//     exit();
+// }
 
 
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-$orders = $database->select("orders");
 
-$productsWithCategories = [];
+$orders = $database->select("orders");
 $baseImagePath = "../assets/images/";
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21,6 +29,21 @@ if (!empty($orders)) {
     $OrdersToDisplay = []; 
     foreach ($orders as $order) {
         $order_id = $order['id'];
+        $order_items = $database->selectOrderItemsByOrderId($order_id);
+        $itemsWithProducts = [];
+        
+        if (!empty($order_items)) {
+            foreach ($order_items as $item) {
+                $product_id = $item['product_id'];
+                $product = $database->selectById("products", $product_id);        
+                if (!empty($product)) {
+                    $item['product_name'] = $product['name'];
+                    $item['product_price'] = $product['price'];
+                    $item['product_image'] = $baseImagePath . $product['image'];
+                    $itemsWithProducts[] = $item;
+                }
+            }
+        }
         $order_date = $order['order_date'];
         $customer = $database->selectById("users", $order['user_id']);     
         $customer_name = $customer['username'];
@@ -34,12 +57,15 @@ if (!empty($orders)) {
             'order_date' => $order_date,
             'room' => $room,
             'status' => $status,
-            'total' => $total
+            'total' => $total,
+            'product_items' => $itemsWithProducts,
         ];
     }
 
     // var_dump($OrdersToDisplay);
 }
+
+
 
 
 ?>
@@ -138,14 +164,16 @@ if (!empty($orders)) {
                             <td colspan="6">
                                 <div>
                                     <div class="products-section">
-                                        <div class="product-card">
-                                            <div style="position: relative;">
-                                                <img class="product-image" src="https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg" alt="">
-                                                <span class="price-tag">$5.00</span>
-                                                <p class="product-name">coffee</p>
-                                                <span class="product-quantity">Items: <strong>1</strong></span>
+                                        <?php foreach ($order['product_items'] as $item): ?>
+                                            <div class="product-card">
+                                                <div style="position: relative;">
+                                                    <img class="product-image" src="<?php echo $item['product_image']; ?>" alt="">
+                                                    <span class="price-tag">$<?php echo $item['product_price']; ?></span>
+                                                    <p class="product-name"><?php echo $item['product_name']; ?></p>
+                                                    <span class="product-quantity">Items: <strong><?php echo $item['quantity']; ?></strong></span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php endforeach; ?>
                                         <div class="product-card">
                                             <div style="position: relative;">
                                                 <img class="product-image" src="https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg" alt="">

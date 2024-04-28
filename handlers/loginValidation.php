@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $user_token = generate_user_token();
         setcookie('auth_token', $user_token, time() + (86400 * 30), '/');
-        header('Location: logged_in.php');
+        header('Location: products_table.php');
         exit();
 
     } else {
