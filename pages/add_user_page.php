@@ -2,6 +2,8 @@
     // Check if there are any errors and old data passed via GET request
     require_once '../base.php';
 require_once '../classes/db_classes.php'; 
+session_start();
+
 
     if(isset($_GET['errors'])){
         $errors = json_decode($_GET["errors"], true);
@@ -21,11 +23,22 @@ $rooms = $database->select("rooms");
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="../assets/css/style.css" rel="stylesheet">
+
+
 </head>
 <body>
-<div class="container">
-    <h1>Register an Account</h1>
+    <?php
+    require '../inc/admin_navbar.php';
+    ?>
+<div class="container mt-3">
+<div class="row justify-content-center">
+<div class="col-md-6">
+<div class="card form-shadow">
+<div class="card-header">
+                        <h2 class="text-center main-text-color">Register an Account</h2>
+                    </div>
+                    <div class="card-body">
     <form action="../handlers/user_handler.php" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label"> Name</label>
@@ -79,10 +92,14 @@ $rooms = $database->select("rooms");
             <input type="file" name="image" id="image" accept="image/*" required 
                    class="form-control"  aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn form-btn">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
     </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</div>
+            </div>
+            </div>
+            </div>
+
 </body>
 </html>
