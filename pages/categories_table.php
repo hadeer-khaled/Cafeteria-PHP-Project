@@ -7,7 +7,12 @@ $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $categories = $database->select("categories");
 ?>
 
-
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,3 +65,6 @@ $categories = $database->select("categories");
 </body>
 </html>
 
+<?php
+}
+?>

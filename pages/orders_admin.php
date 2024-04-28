@@ -1,5 +1,6 @@
 <?php
 require_once '../classes/db_classes.php'; 
+session_start();
 
 // if (!isset($_SESSION['user_id'])) {
 //     header('Location: login.php'); 

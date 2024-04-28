@@ -25,7 +25,11 @@ unset($_SESSION['old_data'], $_SESSION['errors']);
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+<?php
+        require '../inc/login_navbar.php';
+    
+    ?>
+<div class="container mt-2">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
             <div class="card">

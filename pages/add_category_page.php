@@ -1,5 +1,9 @@
 <?php
 require_once '../base.php';
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +13,11 @@ require_once '../base.php';
 </head>
 <body>
     <?php
-    require '../inc/admin_navbar.php';
+    if (isset($_SESSION['username'])){
+        require '../inc/admin_navbar.php';
+    }else{
+        require '../inc/login_navbar.php';
+    }
     ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -22,7 +30,7 @@ require_once '../base.php';
                         <form action="../handlers/add_category_handler.php" method="POST">
                             <div class="form-group">
                                 <label for="category_name" class="mb-1">Category Name:</label>
-                                <input type="text" class="form-control" id="category_name" name="category_name" required>
+                                <input type="text" class="form-control" id="category_name" name="category_name" required pattern="[A-Za-z\s]*">
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn form-btn mt-4">Add Category</button>
@@ -35,3 +43,6 @@ require_once '../base.php';
     </div>
 </body>
 </html>
+<?php
+}
+?>

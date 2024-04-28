@@ -36,12 +36,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  style="color: white;" href="#">
+        <a class="nav-link"  style="color: white;" href="../pages/orders_admin.php">
            Orders
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  style="color: white;"href="#">
+        <a class="nav-link"  style="color: white;"href="../pages/checks.php">
          Checks
         </a>
       </li>
@@ -53,7 +53,7 @@
     align-items: center;">
     <a class="nav-link"  style="color: white;" href="#">
       <img src="../assets/images/redhat.jpg" alt="User Image" width="30" height="30" class="d-inline-block align-top rounded-circle">
-      Admin
+      <?php echo $_SESSION['username']; ?>
     </a>
     <a class="nav-link" href="../handlers/logout.php"><i class="fa-solid fa-right-from-bracket" style = "font-size: 22px;
     color: #C46B48;"></i></a>

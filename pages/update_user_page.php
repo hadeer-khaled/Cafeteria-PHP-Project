@@ -3,6 +3,8 @@ require_once '../env.php';
 require_once '../base.php';
 require_once '../classes/db_classes.php'; 
 $edit_data = [];
+session_start();
+
 if (isset($_GET['id'])) {
     $user_id = $_GET['id'];
     $database = Database::getInstance();
@@ -36,11 +38,20 @@ $rooms = $database->select("rooms")
 <head>
     <meta charset="UTF-8">
     <title>Update data</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 <body>
-<div class="container">
-    <h1>Update your data</h1>
+<?php
+    require '../inc/admin_navbar.php';
+    ?>
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card form-shadow">
+                <div class="card-header">
+                        <h2 class="text-center main-text-color">Update user data</h2>
+                    </div>
+                    <div class="card-body">
     <form action="../handlers/update_user_handler.php?id=<?php echo $_GET['id']; ?>" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="username" class="form-label"> Name</label>
@@ -113,10 +124,14 @@ $rooms = $database->select("rooms")
             <input type="file" name="image" id="image" accept="image/*" required
                    class="form-control"  aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn form-btn">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
     </form>
+    <div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </div>
+    </div>
+    <div>
+
 </body>
 </html>

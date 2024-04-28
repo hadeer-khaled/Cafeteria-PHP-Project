@@ -11,8 +11,13 @@ $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $categories = $database->select("categories")
 ?>
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Add Product</title>
@@ -35,15 +40,15 @@ $categories = $database->select("categories")
                         <form action="../handlers/add_product_handler.php" method="POST" enctype="multipart/form-data" >
                                 <div class="form-group">
                                     <label for="product_name">Product Name:</label>
-                                    <input type="text" class="form-control" id="product_name" name="name" placeholder="ex: Mango juice" required>
+                                    <input type="text" class="form-control" id="product_name" name="name" placeholder="ex: Mango juice" required pattern="[A-Za-z\s]*"> 
                                 </div>
                                 <div class="form-group mt-4">
                                     <label for="product_price">Product Price:</label>
-                                    <input type="number" class="form-control" id="product_price" name="price" placeholder="ex: 90" required>
+                                    <input type="number" class="form-control" id="product_price" name="price" placeholder="ex: 90" required min="0">
                                 </div>
                                 <div class="form-group mt-4">
                                     <label for="product_stock">Stock:</label>
-                                    <input type="number" class="form-control" id="product_stock" name="stock" placeholder="ex: 50" required>
+                                    <input type="number" class="form-control" id="product_stock" name="stock" placeholder="ex: 50" required min="0">
                                 </div>
                                 <div class="form-group mt-4">
                                     <label for="category_id">Category: <a href="add_category_page.php">Add Category</a> </label>
@@ -71,3 +76,6 @@ $categories = $database->select("categories")
 
 </body>
 </html>
+<?php
+}
+?>
