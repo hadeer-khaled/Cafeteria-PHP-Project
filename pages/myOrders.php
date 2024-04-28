@@ -4,20 +4,25 @@ require_once '../classes/db_classes.php';
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-$orders = $database->select("orders");
-?>
+if(isset($_GET['start']) && isset($_GET['end'])) {
+    $start_date = $_GET['start'];
+    $end_date = $_GET['end'];
+    $orders = $database->getOrdersByCriteria($start_date, $end_date);
+} else {
+    $orders = $database->select("orders");
+}
 
+$totalAmountOfAllOrders = 0;
+?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <title>My Orders</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 </head>
-
 <body>
     <!--ordertable-->
     <main class="my-orders my-5">
@@ -30,7 +35,7 @@ $orders = $database->select("orders");
                             <input type="hidden" name="userId" value="<?= $user_id ?>" />
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="from-group">
+                                    <div class="form-group">
                                         <label for="start">Date from:</label>
                                         <input type="date" class="form-control start" name="start" />
                                     </div>
@@ -65,14 +70,15 @@ $orders = $database->select("orders");
                         </thead>
                         <tbody id="orders-table-body">
                             <?php if (!empty($orders)) {
-                                foreach ($orders as $order) { ?>
-                                    <?php $order_items = $database->selectOrderItemsByOrderId($order['id']);
+                                foreach ($orders as $order) { 
+                                    $orderId = isset($order['id']) ? $order['id'] : '';
+                                    $order_items = $database->selectOrderItemsByOrderId($orderId);
                                     $total_amount = 0;
                                     ?>
                                     <tr class="order">
                                         <td>
                                             <span><?= $order['order_date'] ?></span>
-                                            <i class="fa-solid fa-square-caret-down mx-5 toggle-details" data-order-id="<?= $order['id'] ?>"></i>
+                                            <i class="fa-solid fa-square-caret-down mx-5 toggle-details" data-order-id="<?= $orderId ?>"></i>
                                         </td>
 
                                         <td class="<?= strtolower($order['status']) ?>">
@@ -85,22 +91,23 @@ $orders = $database->select("orders");
                                                 $product = $database->selectById("products", $item['product_id']);
                                                 $total_amount += $product['price'] * $item['quantity'];
                                             }
+                                            $totalAmountOfAllOrders += $total_amount;
                                             ?>
                                             <span><?= $total_amount ?></span> $
                                         </td>
                                         <td>
                                             <?php if ($order["status"] == 'processing') { ?>
-                                                <a href='../handlers/cancel_order_handler.php?id=<?= $order['id'] ?>' class='cancel btn btn-danger'>Cancel</a>
+                                                <a href='../handlers/cancel_order_handler.php?id=<?= $orderId ?>' class='cancel btn btn-danger'>Cancel</a>
                                             <?php } ?>
                                         </td>
                                     </tr>
-                                    <tr class="order-details" id="orderDetails<?= $order['id'] ?>" style="display: none;">
+                                    <tr class="order-details" id="orderDetails<?= $orderId ?>" style="display: none;">
                                         <td colspan="4">
                                             <!-- order details -->
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Product Name</th>
+                                                        <th>Order Name</th>
                                                         <th>Price</th>
                                                         <th>Quantity</th>
                                                         <th>Total</th>
@@ -137,6 +144,10 @@ $orders = $database->select("orders");
                             <?php } ?>
                         </tbody>
                     </table>
+
+                    <?php if (!empty($orders)) { ?>
+                        <div>Total: <?= $totalAmountOfAllOrders ?> $</div>
+                    <?php } ?>
                 </div>
             </div>
         </section>
@@ -157,28 +168,6 @@ $orders = $database->select("orders");
             });
 
         });
-
-
-        document.getElementById('search-button').addEventListener('click', function() {
-            var formData = new FormData(document.getElementById('search-form'));
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../handlers/checks_handler.php', true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    document.getElementById('orders-table-body').innerHTML = xhr.responseText;
-                }
-            };
-            xhr.send(formData);
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementById('start_date').value = today;
-            document.getElementById('end_date').value = today;
-        });
     </script>
 </body>
-
 </html>
