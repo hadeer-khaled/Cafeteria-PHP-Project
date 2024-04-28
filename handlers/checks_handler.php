@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 if ($_SESSION["user_role"] != "admin") {
     header("Location: login.php"); 
 }
@@ -14,7 +14,9 @@ require_once '../base.php';
 </head>
 
 <body>
-
+    <?php
+require_once '../inc/admin_navbar.php';
+    ?>
 <div class="container-fluid">
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" class="card mb-3">

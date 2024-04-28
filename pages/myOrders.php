@@ -1,6 +1,7 @@
 <?php
 require_once '../classes/db_classes.php'; 
 
+session_start();
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -28,6 +29,9 @@ $totalAmountOfAllOrders = 0;
 </head>
 <body>
     <!--ordertable-->
+    <?php
+     require_once '../inc/user_navbar.php';
+    ?>
     <main class="my-orders my-5">
         <section class="main-padding">
             <div class="container py-5">
