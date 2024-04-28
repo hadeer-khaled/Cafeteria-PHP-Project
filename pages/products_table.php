@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
@@ -22,6 +22,12 @@ if (!empty($products)) {
     }
     // var_dump( $productsWithCategories);
 }
+?>
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
 ?>
 
 
@@ -68,7 +74,9 @@ if (!empty($products)) {
                         <?php foreach ($productsWithCategories as $product): ?>
                             <tr>
                                 <td><?php echo $product['id']; ?> 
-                              
+                                
+                               
+            
                              </td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><?php echo $product['price']; ?></td>
@@ -97,3 +105,6 @@ if (!empty($products)) {
 </body>
 </html>
 
+<?php
+}
+?>
