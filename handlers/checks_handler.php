@@ -71,7 +71,7 @@ require_once '../base.php';
 
                                         <div id="flush-collapse<?= $order['user_id'] ?>" class="accordion-collapse collapse" aria-labelledby="heading<?= $order['user_id'] ?>" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <table class="table table-bordered table-hover table-responsive" style="height: 5px; overflow: auto;">
+                                                <table class="table table-bordered table-hover table-responsive" style="height: 100px; overflow: scroll;">
                                                     <thead>
                                                     <tr>
                                                         <th scope="col">Order ID</th>

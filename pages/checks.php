@@ -9,7 +9,7 @@ require_once '../base.php';
 require_once '../classes/db_classes.php'; 
 
 $database = Database::getInstance();
-$database->connect("localhost", "php_php", 'Password$ecure123', "cafeteria");
+$database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if(isset($_GET['start_date']) && isset($_GET['end_date']) && isset($_GET['user_id']) && !empty($_GET['start_date']) && !empty($_GET['end_date']) && !empty($_GET['user_id'])){
 
