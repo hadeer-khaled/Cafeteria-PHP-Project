@@ -2,7 +2,8 @@
 
 session_start();
 
-if (isset($_SESSION['email'])) {
+if (isset($_SESSION['user_id'])) {
+    // var_dump($_SESSION['user_id']);
     header('Location: products_table.php'); 
     exit();
 }
