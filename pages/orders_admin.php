@@ -103,28 +103,16 @@ if (!empty($orders)) {
 </head>
 <body>
     
-<?php
-    require '../inc/admin_navbar.php';
-    ?>
+    <?php require '../inc/admin_navbar.php'; ?>
     <div class="container mt-5">
         <?php if (empty($OrdersToDisplay)): ?>
             <div class="m-auto d-flex align-items-baseline text-center" style = "width:fit-content;">
                 <h2 class="text-center mx-2">You have no orders yet. </h2>
-                <div class="rounded-circle p-2" style ="width: fit-content; background-color: #BA6644;">
-                    <a href="<?php echo "add_order_page.php"; ?>">
-                        <i class="fa-solid fa-plus" style="color:white;font-size: 23px;"></i>
-                    </a>
-                </div>
-
             </div>       
         <?php else: ?>
             <h2 class="text-center" >Orders list</h2>
             <div class="table-responsive" style="position:relative; ">
-            <div class="rounded-circle p-2 " style =" position:absolute;right: 0px;  width: fit-content; background-color: #BA6644;">
-                    <a href="<?php echo "add_order_page.php"; ?>">
-                        <i class="fa-solid fa-plus" style="color:white;font-size: 20px;"></i>
-                    </a>
-            </div>      
+                
             <?php foreach ($OrdersToDisplay as $order): ?>
                 <table class="table table-striped mt-2" style="margin-bottom: 50px;">
 
@@ -146,7 +134,11 @@ if (!empty($orders)) {
                             <td><?php echo $order['room']; ?></td>
                             <td><?php echo $order['status']; ?></td>
                             <td>
-                                <a href="deliver_order_page.php?id=<?php echo $order['order_id']; ?>" class="btn btn-success">deliver</a>
+                                <?php if ($order['status'] !== 'delivered') : ?>
+                                    <a href="../handlers/deliver_order_page.php?id=<?php echo $order['order_id']; ?>" class="btn btn-success">Deliver</a>
+                                <?php else: ?>
+                                    <button class="btn btn-success" disabled>Delivered</button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     </tbody>
@@ -170,16 +162,11 @@ if (!empty($orders)) {
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-                        
-                        
-                        
+                    </tbody>        
                 </table>
             <?php endforeach; ?>
         </div>
-
         <?php endif; ?>
-
     </div>
 </body>
 </html>
