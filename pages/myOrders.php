@@ -74,7 +74,7 @@ $totalAmountOfAllOrders = 0;
                         <tbody id="orders-table-body">
                             <?php if (!empty($orders)) {
                                 foreach ($orders as $order) { 
-                                    $orderId = isset($order['id']) ? $order['id'] : '';
+                                    $orderId = isset($order['order_id']) ? $order['order_id'] : '';
                                     $order_items = $database->selectOrderItemsByOrderId($orderId);
                                     $total_amount = 0;
                                     ?>
