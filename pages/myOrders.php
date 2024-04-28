@@ -4,12 +4,15 @@ require_once '../classes/db_classes.php';
 $database = Database::getInstance();
 $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
+$user_id = 1;
+
 if(isset($_GET['start']) && isset($_GET['end'])) {
     $start_date = $_GET['start'];
     $end_date = $_GET['end'];
-    $orders = $database->getOrdersByCriteria($start_date, $end_date);
+    $orders = $database->getOrdersByCriteria($start_date, $end_date, $user_id);
 } else {
-    $orders = $database->select("orders");
+    $orders = $database->getOrdersByCriteria(null, null, $user_id);
+
 }
 
 $totalAmountOfAllOrders = 0;
