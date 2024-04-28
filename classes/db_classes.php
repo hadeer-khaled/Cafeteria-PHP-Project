@@ -106,7 +106,58 @@ class Database {
             echo "Error selecting record by id: " . $e->getMessage();
         }
     }
+
+    public function selectUserByEmail( $email) {
+        $query = "SELECT * FROM users WHERE email = :email";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':email', $email, PDO::PARAM_INT);
     
+        try {
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result) {
+                return $result;
+            } else {
+                echo "No record found with email $email in users table.";
+            }
+        } catch (PDOException $e) {
+            echo "Error selecting record by id: " . $e->getMessage();
+        }
+    }
+    
+    public function searchResetToken($token) {
+        // Prepare and execute SQL statement to search for the token in the database
+        $sql = "SELECT * FROM reset_tokens WHERE token = ?";
+        $params = array($token);
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+        
+        // Fetch the result as an associative array
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+    
+        return $result; // Return the token information if found, or null if not found
+    }
+    
+    
+    function updatePassword($email, $new_password) {
+        $sql = "UPDATE users SET password = ? WHERE email = ?";
+        $params = array($new_password, $email);
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params); 
+        
+        return $statement; // Return true if the password is updated successfully, or false if not
+    }
+    
+    function addResetToken($email, $token) {
+        $sql = "INSERT INTO reset_tokens (email, token, expiration_timestamp) VALUES (?, ?, ?)";
+        // 5 minutes token expiration
+        $expiration_timestamp = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+        $params = array($email, $token, $expiration_timestamp);
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params); 
+        return $statement;
+    }
 
 
     public function __destruct() {
