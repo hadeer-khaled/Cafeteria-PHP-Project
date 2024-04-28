@@ -113,6 +113,7 @@ class Database {
         }
     }
 
+
     public function getOrdersByCriteria($start_date, $end_date, $user_id = null) {
         $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username , o.status
                 FROM orders o
