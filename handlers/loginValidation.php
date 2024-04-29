@@ -43,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // $users = file('users.txt');
     $valid_login = false;
     $current_user = null;
     if(!empty($users)){
