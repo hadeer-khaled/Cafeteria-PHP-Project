@@ -11,6 +11,12 @@ class Database {
     {
 
     }
+    public function prepare($query) {
+        return $this->connection->prepare($query);
+    }
+    public function lastInsertId() {
+        return $this->connection->lastInsertId();
+    }
 
     public static function getInstance() 
     {
@@ -106,7 +112,6 @@ class Database {
             echo "Error selecting record by id: " . $e->getMessage();
         }
     }
-
     public function selectUserByEmail( $email) {
         $query = "SELECT * FROM users WHERE email = :email";
         $statement = $this->connection->prepare($query);
@@ -157,8 +162,53 @@ class Database {
         $statement = $this->connection->prepare($sql);
         $statement->execute($params); 
         return $statement;
+
+
+    public function getOrdersByCriteria($start_date = null, $end_date = null, $user_id = null) {
+        $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username, o.status
+                FROM orders o
+                INNER JOIN users u ON o.user_id = u.id";
+    
+        if (!empty($start_date) && !empty($end_date)) {
+            $sql .= " WHERE o.order_date BETWEEN :start_date AND :end_date ";
+            if (!empty($user_id)) {
+                $sql .= " AND o.user_id = :user_id";
+            }
+        } elseif (!empty($user_id)) {
+            $sql .= " WHERE o.user_id = :user_id";
+        }
+    
+        $statement = $this->connection->prepare($sql);
+    
+        if (!empty($start_date) && !empty($end_date)) {
+            $statement->bindParam(':start_date', $start_date);
+            $statement->bindParam(':end_date', $end_date);
+        }
+        if (!empty($user_id)) {
+            $statement->bindParam(':user_id', $user_id);
+        }
+    
+        $statement->execute();
+    
+        $orders = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+        return $orders;
     }
 
+    public function selectOrderItemsByOrderId($order_id) {
+        $query = "SELECT * FROM order_items WHERE order_id = :order_id";
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    
+        try {
+            $statement->execute();
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error selecting order items: " . $e->getMessage();
+            return false;
+        }
+    }
 
     public function __destruct() {
         $this->connection = null;

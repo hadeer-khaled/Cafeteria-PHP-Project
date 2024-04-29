@@ -16,6 +16,12 @@ try {
 }
 
 ?>
+<?php
+session_start();
+if ($_SESSION["user_role"] != "admin") {
+    header("Location: login.php"); 
+} else {
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,14 +48,18 @@ try {
                             <div class="form-group">
                                 <label for="product_name">Product Name:</label>
                                 <input type="text" class="form-control" id="product_name" name="name" 
-                                placeholder="ex: Mango juice" value="<?php echo $product['name']; ?>" required>
+                                placeholder="ex: Mango juice" value="<?php echo $product['name']; ?>" required pattern="[A-Za-z\s]*">
                             </div>
                             <div class="form-group mt-4">
                                 <label for="product_price">Product Price:</label>
                                 <input type="number" class="form-control" id="product_price" name="price" 
-                                placeholder="ex: 90" value="<?php echo $product['price']; ?>" required>
+                                placeholder="ex: 90" value="<?php echo $product['price']; ?>" required min="0">
                             </div>
-                      
+                            <div class="form-group mt-4">
+                                <label for="product_stock">Product Stock:</label>
+                                <input type="number" class="form-control" id="product_stock" name="stock" 
+                                placeholder="ex: 90" value="<?php echo $product['stock']; ?>" required min="0">
+                            </div>
                             <div class="form-group mt-4">
                                 <label for="category_id">Category:</label>
                                 <select class="form-control" id="category_id" name="category_id" required>
@@ -80,6 +90,9 @@ try {
 </body>
 
 </html>
+<?php
+}
+?>
 
 
 
