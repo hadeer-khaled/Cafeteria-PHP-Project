@@ -54,15 +54,14 @@
 
 </head>
 <body>
-
 <?php
-// if (isset($_SESSION['username'])){
-    if (isset($_COOKIE['auth_token'])){
+    if ($session->hasSession('auth_token')){
     require '../inc/user_navbar.php';
 }else{
     require '../inc/login_navbar.php';
 }
     ?>
+
     <section class="menu-area" id="coffee">
         <div class="container">
             <div class="row d-flex justify-content-center">
@@ -104,8 +103,8 @@
                             </div>
                             <img  src="<?php echo $baseImagePath . $product['image']; ?>"
                                     alt="<?php echo $product['name']; ?>"
-                                    style="max-width: 200px;">                            <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
-                                
+                                    style="max-width: 200px;">                            
+                                <form action="../handlers/handleCart.php" method="post" name="esraa" class="mt-3">
                                 <input type="hidden" name="productId" value="<?= $product['id']; ?>">
                                 <div class="form-group">
                                     <label for="quantity<?= $product['id']; ?>">Quantity:</label>
@@ -117,8 +116,7 @@
                                 <button type="submit" class="btn form-btn" name="addToCart">Add to Cart</button>
                                 <?php
                              }
-                             ?>
-                            </form>
+                             ?>                            </form>
                         </div>
                     </div>
                     <?php endforeach; ?>

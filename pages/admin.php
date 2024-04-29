@@ -1,6 +1,7 @@
 <?php
     require_once '../inc/admin_navbar.php';
     require_once '../App.php'; 
+    $baseImagePath = "../assets/images/";
 
     $searchQuery = $request->post('search');
 
@@ -95,8 +96,10 @@
                                 <h4><?= $product['name']; ?></h4>
                                 <p class="price float-right">$<?= $product['price']; ?></p>
                             </div>
-                            <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" style="max-width: 100px;">
-                            <form action="../handlers/handleCartAdmin.php" method="post" name="esraa" class="mt-3">
+                            <img  src="<?php echo $baseImagePath . $product['image']; ?>"
+                                    alt="<?php echo $product['name']; ?>"
+                                    style="max-width: 200px;">             
+                           <form action="../handlers/handleCartAdmin.php" method="post" name="esraa" class="mt-3">
                                 
                                 <input type="hidden" name="productId" value="<?= $product['id']; ?>">
                                 <div class="form-group">
