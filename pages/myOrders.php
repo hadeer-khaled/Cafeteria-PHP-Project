@@ -103,7 +103,7 @@ $totalAmountOfAllOrders = 0;
                                             <span><?= $total_amount ?></span> $
                                         </td>
                                         <td>
-                                            <?php if ($order["status"] == 'processing') { ?>
+                                            <?php if ($order["status"] == 'pending') { ?>
                                                 <a href='../handlers/cancel_order_handler.php?id=<?= $orderId ?>' class='cancel btn btn-danger'>Cancel</a>
                                             <?php } ?>
                                         </td>

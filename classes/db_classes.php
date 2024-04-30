@@ -163,7 +163,7 @@ class Database {
         $statement->execute($params); 
         return $statement;
 
-
+    }
     public function getOrdersByCriteria($start_date = null, $end_date = null, $user_id = null) {
         $sql = "SELECT o.id AS order_id, o.order_date, o.total_amount, o.notes, u.username, o.status
                 FROM orders o
