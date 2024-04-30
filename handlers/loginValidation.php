@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!empty($users)){
         foreach ($users as $user) {
             $user_info = $user;
-            if ($user_info['email'] == $email && $user_info['password'] == $password) {
+            if ($user_info['email'] == $email && password_verify($password, trim($user_info['password'])) ) {
                 $valid_login = true;
                 $current_user = $user_info;
                 break;

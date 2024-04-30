@@ -66,7 +66,7 @@ if (empty($_POST["password"])){
         $database->connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         
         $table = "users";
-    
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         if (isset($_FILES['image']['tmp_name'])){
             $filename = $_FILES['image']['name'];
             $tmp_name = $_FILES['image']['tmp_name'];
@@ -78,7 +78,7 @@ if (empty($_POST["password"])){
         
         }
         $columns = "username, email, password,room_id, image";
-        $values = "'$name', '$email', '$password','$roomNo', '$path' "; 
+        $values = "'$name', '$email', '$hashed_password ','$roomNo', '$path' "; 
         if ($database->insert($table, $columns, $values)) {
             echo "Record inserted successfully.";
              header("Location:../pages/users_table.php");
