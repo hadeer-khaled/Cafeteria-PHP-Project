@@ -24,7 +24,12 @@ $rooms = $database->select("rooms");
     <meta charset="UTF-8">
     <title>Register</title>
     <link href="../assets/css/style.css" rel="stylesheet">
-
+    <style>
+        form i {
+            margin-left: -30px;
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 <body>
@@ -60,18 +65,25 @@ $rooms = $database->select("rooms");
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="password"
-            value="<?php echo isset($old_data['password']) ? $old_data['password'] : ''; ?>"
-            >
+            <div class="input-group">
+                <input type="password" name="password" class="form-control" id="password"value="<?php echo isset($old_data['password']) ? $old_data['password'] : ''; ?>"
+                >
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">Show</button>
+                </div>
+            </div>
+            
             <?php if(isset($errors['password'])): ?>
                 <div class="text-danger"><?php echo $errors['password']; ?></div>
             <?php endif; ?>
         </div>
         <div class="mb-3">
             <label for="confirmPassword" class="form-label">Confirm Password</label>
+            
             <input type="password" name="confirmPassword" class="form-control" id="confirmPassword"
             value="<?php echo isset($old_data['confirmPassword']) ? $old_data['confirmPassword'] : ''; ?>"
             >
+
             <?php if(isset($errors['confirmPassword'])): ?>
                 <div class="text-danger"><?php echo $errors['confirmPassword']; ?></div>
             <?php endif; ?>
@@ -100,6 +112,22 @@ $rooms = $database->select("rooms");
             </div>
             </div>
             </div>
+
+            <script>
+        const togglePassword = document
+            .querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        togglePassword.addEventListener('click', () => {
+            // Toggle the type attribute using
+            // getAttribure() method
+            const type = password
+                .getAttribute('type') === 'password' ?
+                'text' : 'password';
+            password.setAttribute('type', type);
+            // Toggle the eye and bi-eye icon
+            this.classList.toggle('bi-eye');
+        });
+    </script>
 
 </body>
 </html>
