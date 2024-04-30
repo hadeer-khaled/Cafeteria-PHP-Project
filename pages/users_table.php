@@ -36,7 +36,6 @@ function display_table($rows){
         </div>
         </div>';
     } else {
-        
         echo "<h2 class='text-center'>Users List</h2>
         <div class='table-responsive' style='position:relative; '>
         <div class='rounded-circle p-2 ' style =' position:absolute;right: 0px;  width: fit-content; background-color: #BA6644;'>
@@ -45,17 +44,20 @@ function display_table($rows){
                 </a>
             </div>  
         <table class='table table-striped mt-2'> <tr> <th>ID</th>  <th>Name</th>  <th>Email</th>
-        <th>password</th> <th>Role</th> <th>room_no</th> <th>image</th> <th>Actions</th> 
+        <th>Role</th> <th>room_no</th> <th>Actions</th> 
         </tr>";
-
+    
         foreach ($rows as $row) {
             $url_query_string = $row['id'];
             $delete_url = "../handlers/delete_user_handler.php?id={$url_query_string}";
             $edit_url = "../pages/update_user_page.php?id={$url_query_string}";
-
+    
             echo "<tr>";
-            foreach ($row as $value) {
-                echo "<td>{$value}</td>";
+            foreach ($row as $key => $value) {
+                // Exclude the 'password' and 'image' fields
+                if ($key !== 'password' && $key !== 'image') {
+                    echo "<td>{$value}</td>";
+                }
             }
             echo "<td><a href='{$edit_url}' ><i class='fa-solid fa-pen-to-square' style = 'font-size: 20px;color: #1A4D2E;'>
             </i></a>
@@ -68,9 +70,10 @@ function display_table($rows){
         </div>
         </div>
         </body>
-</html>
-        ";
+        </html>";
     }
+    
+    
 }
 
 $rows = get_all_data();

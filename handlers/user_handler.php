@@ -73,7 +73,7 @@ if (empty($_POST["password"])){
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
         
             $newFilename = $_POST["email"] . ".$extension";
-            $path = "../images/{$newFilename}";
+            $path = "../assets/images/profilePicture/{$newFilename}";
             $saved = move_uploaded_file($tmp_name, $path);
         
         }

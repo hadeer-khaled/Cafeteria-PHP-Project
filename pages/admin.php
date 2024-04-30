@@ -1,5 +1,5 @@
 <?php
-    require_once '../inc/admin_navbar.php';
+    
     require_once '../App.php'; 
     $baseImagePath = "../assets/images/";
 
@@ -55,8 +55,9 @@
 
 </head>
 <body>
-
-
+        <?php
+            require_once '../inc/admin_navbar.php';
+        ?> 
     <section class="menu-area" id="coffee">
         <div class="container">
             <div class="row d-flex justify-content-center">
